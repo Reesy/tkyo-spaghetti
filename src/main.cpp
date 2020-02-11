@@ -5,7 +5,7 @@
 #include <math.h>
 
 //game objects
-sf::RenderWindow window(sf::VideoMode(430, 750), "Crappy Duck");
+sf::RenderWindow window(sf::VideoMode(430, 750), "Tkyo Spaghetti");
 
 
 sf::Image icon;

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(CrappyDuck)
+project(TkyoSpaghetti)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/external_resources/sfml")
 
@@ -31,17 +31,17 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/include"
 )
 
-file(GLOB_RECURSE CrappyDuck_FILES
+file(GLOB_RECURSE TkyoSpaghetti_FILES
 	"${PROJECT_SOURCE_DIR}/include/*.h"
 	"${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 file(COPY resources DESTINATION ./)
 
-add_executable(CrappyDuck
-	${CrappyDuck_FILES}
+add_executable(TkyoSpaghetti
+	${TkyoSpaghetti_FILES}
 )
 
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -lpthread -ldl")
 
 
-target_link_libraries(CrappyDuck sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(TkyoSpaghetti sfml-system sfml-window sfml-graphics sfml-audio)
