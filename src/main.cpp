@@ -30,17 +30,34 @@ sf::Texture birdTexture2;
 sf::Texture birdTexture3;
 
 sf::Sprite poleDancerSprite;
-sf::Sprite poleDancerSprite2;
 sf::Texture poleDancer1;
 sf::Texture poleDancer2;
 sf::Texture poleDancer3;
 sf::Texture poleDancer4;
 sf::Texture poleDancer5;
 
+sf::Sprite samSprite;
+sf::Texture samTexture1;
+sf::Texture samTexture2;
+sf::Texture samTexture3;
+sf::Texture samTexture4;
+sf::Texture samTexture5;
+sf::Texture samTexture6;
+sf::Texture samTexture7;
+sf::Texture samTexture8;
+sf::Texture samTexture9;
+sf::Texture samTexture10;
+sf::Texture samTexture11;
+sf::Texture samTexture12;
+sf::Texture samTexture13;
+sf::Texture samTexture14;
+sf::Texture samTexture15;
+
 sf::Event event;
 
 float birdAccumulator;
 float poleDancerAccumulator;
+float samAccumulator;
 float animateSpeed;
 bool collided;
 bool jumping; 
@@ -107,6 +124,74 @@ static void poleDancerAnimate(float elapsedTime)
     }
 }
 
+static void samAnimate(float elapsedTime)
+{
+    samSprite.setTexture(samTexture1);
+    samAccumulator += elapsedTime * animateSpeed;
+
+    if (samAccumulator > 1 && samAccumulator < 2)
+    {
+        samSprite.setTexture(samTexture2);
+    } 
+    else if (samAccumulator > 2 && samAccumulator < 3)
+    {
+        samSprite.setTexture(samTexture3);
+    }
+    else if (samAccumulator > 3 && samAccumulator < 4)
+    {
+        samSprite.setTexture(samTexture4);
+    }
+    else if (samAccumulator > 4 && samAccumulator < 5)
+    {
+        samSprite.setTexture(samTexture5);
+    }
+    else if (samAccumulator > 5 && samAccumulator < 6)
+    {
+        samSprite.setTexture(samTexture6);
+    }
+    else if (samAccumulator > 6 && samAccumulator < 7)
+    {
+        samSprite.setTexture(samTexture7);
+    }
+    else if (samAccumulator > 7 && samAccumulator < 8)
+    {
+        samSprite.setTexture(samTexture8);
+    }
+    else if (samAccumulator > 8 && samAccumulator < 9)
+    {
+        samSprite.setTexture(samTexture9);
+    }
+    else if (samAccumulator > 9 && samAccumulator < 10)
+    {
+        samSprite.setTexture(samTexture10);
+    }
+    else if (samAccumulator > 10 && samAccumulator < 11)
+    {
+        samSprite.setTexture(samTexture11);
+    }
+    else if (samAccumulator > 11 && samAccumulator < 12)
+    {
+        samSprite.setTexture(samTexture12);
+    }
+    else if (samAccumulator > 12 && samAccumulator < 13)
+    {
+        samSprite.setTexture(samTexture13);
+    }
+    else if (samAccumulator > 13 && samAccumulator < 14)
+    {
+        samSprite.setTexture(samTexture14);
+    }
+    else if (samAccumulator > 14 && samAccumulator < 15)
+    {
+        samSprite.setTexture(samTexture15);
+    }
+    else if (samAccumulator > 15)
+    {
+        samSprite.setTexture(samTexture1);
+        samAccumulator = 0;
+    }
+}
+
 static void birdAnimate(float elapsedTime)
 {
     bird_sprite.setTexture(birdTexture1);
@@ -136,7 +221,7 @@ static void render()
     window.draw(floor_sprite);
     window.draw(bird_sprite);
     window.draw(poleDancerSprite);
-
+    window.draw(samSprite);
     // window.draw(bird_box);
     // window.draw(floor_box);
 }
@@ -196,6 +281,22 @@ static void loadResources()
     poleDancer4.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(3000, 0, 1000, 1000));
     poleDancer5.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(4000, 0, 1000, 1000));
 
+    samTexture1.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(0, 0, 1000, 1000));
+    samTexture2.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(1000, 0, 1000, 1000));
+    samTexture3.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(2000, 0, 1000, 1000));
+    samTexture4.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(3000, 0, 1000, 1000));
+    samTexture5.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(4000, 0, 1000, 1000));
+    samTexture6.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(5000, 0, 1000, 1000));
+    samTexture7.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(6000, 0, 1000, 1000));
+    samTexture8.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(7000, 0, 1000, 1000));
+    samTexture9.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(8000, 0, 1000, 1000));
+    samTexture10.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(9000, 0, 1000, 1000));
+    samTexture11.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(10000, 0, 1000, 1000));
+    samTexture12.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(11000, 0, 1000, 1000));
+    samTexture13.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(12000, 0, 1000, 1000));
+    samTexture14.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(13000, 0, 1000, 1000));
+    samTexture15.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(14000, 0, 1000, 1000));
+
 	music.openFromFile("resources/nice_music.ogg");
 }
 
@@ -209,6 +310,9 @@ static void init()
     floor_sprite.setTexture(floor_texture);
     poleDancerSprite.setScale(0.2, 0.2);
     poleDancerSprite.move(1000, 440);
+
+    samSprite.setScale(0.2, 0.2);
+    samSprite.move(800, 440);
     floor_box.move(0, 600);
     bird_sprite.setTexture(birdTexture1);
     bird_sprite.setScale(4, 4);
@@ -244,6 +348,7 @@ int main(int, char const**)
         window.clear();
         birdAnimate(elapsed.asSeconds());
         poleDancerAnimate(elapsed.asSeconds());
+        samAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
         render();
