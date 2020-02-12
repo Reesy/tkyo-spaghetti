@@ -28,9 +28,19 @@ sf::Sprite bird_sprite;
 sf::Texture birdTexture2;
 
 sf::Texture birdTexture3;
+
+sf::Sprite poleDancerSprite;
+sf::Sprite poleDancerSprite2;
+sf::Texture poleDancer1;
+sf::Texture poleDancer2;
+sf::Texture poleDancer3;
+sf::Texture poleDancer4;
+sf::Texture poleDancer5;
+
 sf::Event event;
 
-float accumulator;
+float birdAccumulator;
+float poleDancerAccumulator;
 float animateSpeed;
 bool collided;
 bool jumping; 
@@ -69,27 +79,55 @@ static void update(float elapsed)
     }
 }
 
+static void poleDancerAnimate(float elapsedTime)
+{
+    poleDancerSprite.setTexture(poleDancer1);
+    poleDancerAccumulator += elapsedTime * animateSpeed;
 
-static void birdAnimate(float elapsedTime){
+    if (poleDancerAccumulator > 1 && poleDancerAccumulator < 2)
+    {
+        poleDancerSprite.setTexture(poleDancer1);
+    } 
+    else if (poleDancerAccumulator > 2 && poleDancerAccumulator < 3)
+    {
+        poleDancerSprite.setTexture(poleDancer2);
+    }
+    else if (poleDancerAccumulator > 3 && poleDancerAccumulator < 4)
+    {
+        poleDancerSprite.setTexture(poleDancer3);
+    }
+    else if (poleDancerAccumulator > 4 && poleDancerAccumulator < 5)
+    {
+        poleDancerSprite.setTexture(poleDancer4);
+    }
+    else if (poleDancerAccumulator > 5)
+    {
+        poleDancerSprite.setTexture(poleDancer5);
+        poleDancerAccumulator = 0;
+    }
+}
+
+static void birdAnimate(float elapsedTime)
+{
     bird_sprite.setTexture(birdTexture1);
-    accumulator += elapsedTime * animateSpeed;
+    birdAccumulator += elapsedTime * animateSpeed;
   
-    if (accumulator > 1 && accumulator < 2)
+    if (birdAccumulator > 1 && birdAccumulator < 2)
     {
         bird_sprite.setTexture(birdTexture1);
     }
-    else if (accumulator > 2 && accumulator < 3)
+    else if (birdAccumulator > 2 && birdAccumulator < 3)
     {
         bird_sprite.setTexture(birdTexture2);
     }
-    else if (accumulator > 3 && accumulator < 4)
+    else if (birdAccumulator > 3 && birdAccumulator < 4)
     {
         bird_sprite.setTexture(birdTexture3);
     }
-    else if (accumulator > 4)
+    else if (birdAccumulator > 4)
     {
         bird_sprite.setTexture(birdTexture2);
-        accumulator = 0;
+        birdAccumulator = 0;
     }
 }
 
@@ -97,7 +135,7 @@ static void render()
 {
     window.draw(floor_sprite);
     window.draw(bird_sprite);
-
+    window.draw(poleDancerSprite);
 
     // window.draw(bird_box);
     // window.draw(floor_box);
@@ -150,6 +188,14 @@ static void loadResources()
 	birdTexture1.loadFromFile("resources/flappy.png", sf::IntRect(220, 120, 20, 20));
 	birdTexture2.loadFromFile("resources/flappy.png", sf::IntRect(261, 86, 20, 20));
 	birdTexture3.loadFromFile("resources/flappy.png", sf::IntRect(261, 60, 20, 20));
+
+    //poledancer textures
+    poleDancer1.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(0, 0, 1000, 1000));
+    poleDancer2.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(1000, 0, 1000, 1000));
+    poleDancer3.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(2000, 0, 1000, 1000));
+    poleDancer4.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(3000, 0, 1000, 1000));
+    poleDancer5.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(4000, 0, 1000, 1000));
+
 	music.openFromFile("resources/nice_music.ogg");
 }
 
@@ -161,6 +207,8 @@ static void init()
     background.setTexture(background_texture);
     floor_sprite.setScale(10, 3);
     floor_sprite.setTexture(floor_texture);
+    poleDancerSprite.setScale(0.2, 0.2);
+    poleDancerSprite.move(1000, 440);
     floor_box.move(0, 600);
     bird_sprite.setTexture(birdTexture1);
     bird_sprite.setScale(4, 4);
@@ -169,7 +217,7 @@ static void init()
     floor_sprite.move(0, 600);
     music.play();
     collided = false;
-    animateSpeed = 5;
+    animateSpeed = 7;
     jumping = false;
 }
 
@@ -195,6 +243,7 @@ int main(int, char const**)
     
         window.clear();
         birdAnimate(elapsed.asSeconds());
+        poleDancerAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
         render();
