@@ -387,7 +387,7 @@ static void birdAnimate(float elapsedTime)
 static void render()
 {
     window.draw(floor_sprite);
-    window.draw(bird_sprite);
+    //window.draw(bird_sprite);
     window.draw(poleDancerSprite);
     window.draw(stripperSprite);
     window.draw(samSprite);
@@ -513,8 +513,8 @@ static void init()
     samSprite.setScale(0.2, 0.2);
     samSprite.move(800, 440);
 
-    bikeSprite.setScale(0.1, 0.1);
-    bikeSprite.move(100, 100);
+    bikeSprite.setScale(0.14, 0.14);
+    bikeSprite.move(110, 450);
 
     stripperSprite.setScale(0.2, 0.2);    
     stripperSprite.move(900, 440);
