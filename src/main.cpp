@@ -99,8 +99,8 @@ static void render()
     window.draw(bird_sprite);
 
 
-    window.draw(bird_box);
-    window.draw(floor_box);
+    // window.draw(bird_box);
+    // window.draw(floor_box);
 }
 
 static void input()
@@ -118,13 +118,16 @@ static void input()
     
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
     {
-        if (!jumping)
+        if (collided)
         {
-            timeOfClick = 0;
-        }
+            if (!jumping)
+            {
+                timeOfClick = 0;
+            }
 
-        collided = false;
-        jumping = true;
+            collided = false;
+            jumping = true;
+        }
     }
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
