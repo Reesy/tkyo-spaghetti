@@ -36,6 +36,13 @@ sf::Texture poleDancer3;
 sf::Texture poleDancer4;
 sf::Texture poleDancer5;
 
+sf::Sprite stripperSprite;
+sf::Texture stripper1;
+sf::Texture stripper2;
+sf::Texture stripper3;
+sf::Texture stripper4;
+sf::Texture stripper5;
+
 sf::Sprite samSprite;
 sf::Texture samTexture1;
 sf::Texture samTexture2;
@@ -57,6 +64,7 @@ sf::Event event;
 
 float birdAccumulator;
 float poleDancerAccumulator;
+float stripperAccumulator;
 float samAccumulator;
 float animateSpeed;
 bool collided;
@@ -121,6 +129,34 @@ static void poleDancerAnimate(float elapsedTime)
     {
         poleDancerSprite.setTexture(poleDancer5);
         poleDancerAccumulator = 0;
+    }
+}
+
+static void stripperAnimate(float elapsedTime)
+{
+    stripperSprite.setTexture(stripper1);
+    stripperAccumulator += elapsedTime * animateSpeed;
+
+    if (stripperAccumulator > 1 && stripperAccumulator < 2)
+    {
+        stripperSprite.setTexture(stripper1);
+    } 
+    else if (stripperAccumulator > 2 && stripperAccumulator < 3)
+    {
+        stripperSprite.setTexture(stripper2);
+    }
+    else if (stripperAccumulator > 3 && stripperAccumulator < 4)
+    {
+        stripperSprite.setTexture(stripper3);
+    }
+    else if (stripperAccumulator > 4 && stripperAccumulator < 5)
+    {
+        stripperSprite.setTexture(stripper4);
+    }
+    else if (stripperAccumulator > 5)
+    {
+        stripperSprite.setTexture(stripper5);
+        stripperAccumulator = 0;
     }
 }
 
@@ -221,6 +257,7 @@ static void render()
     window.draw(floor_sprite);
     window.draw(bird_sprite);
     window.draw(poleDancerSprite);
+    window.draw(stripperSprite);
     window.draw(samSprite);
     // window.draw(bird_box);
     // window.draw(floor_box);
@@ -281,6 +318,12 @@ static void loadResources()
     poleDancer4.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(3000, 0, 1000, 1000));
     poleDancer5.loadFromFile("resources/PoledanceSheet.png", sf::IntRect(4000, 0, 1000, 1000));
 
+    stripper1.loadFromFile("resources/StripperTwerkSheet.png", sf::IntRect(0, 0, 1000, 1000));
+    stripper2.loadFromFile("resources/StripperTwerkSheet.png", sf::IntRect(1000, 0, 1000, 1000));
+    stripper3.loadFromFile("resources/StripperTwerkSheet.png", sf::IntRect(2000, 0, 1000, 1000));
+    stripper4.loadFromFile("resources/StripperTwerkSheet.png", sf::IntRect(3000, 0, 1000, 1000));
+    stripper5.loadFromFile("resources/StripperTwerkSheet.png", sf::IntRect(4000, 0, 1000, 1000));
+
     samTexture1.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(0, 0, 1000, 1000));
     samTexture2.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(1000, 0, 1000, 1000));
     samTexture3.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(2000, 0, 1000, 1000));
@@ -313,6 +356,10 @@ static void init()
 
     samSprite.setScale(0.2, 0.2);
     samSprite.move(800, 440);
+
+    stripperSprite.setScale(0.2, 0.2);    
+    stripperSprite.move(900, 440);
+
     floor_box.move(0, 600);
     bird_sprite.setTexture(birdTexture1);
     bird_sprite.setScale(4, 4);
@@ -348,6 +395,7 @@ int main(int, char const**)
         window.clear();
         birdAnimate(elapsed.asSeconds());
         poleDancerAnimate(elapsed.asSeconds());
+        stripperAnimate(elapsed.asSeconds());
         samAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
