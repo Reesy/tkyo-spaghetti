@@ -60,12 +60,39 @@ sf::Texture samTexture13;
 sf::Texture samTexture14;
 sf::Texture samTexture15;
 
+sf::Sprite bikeSprite;
+sf::Texture bikeTexture1;
+sf::Texture bikeTexture2;
+sf::Texture bikeTexture3;
+sf::Texture bikeTexture4;
+sf::Texture bikeTexture5;
+sf::Texture bikeTexture6;
+sf::Texture bikeTexture7;
+sf::Texture bikeTexture8;
+sf::Texture bikeTexture9;
+sf::Texture bikeTexture10;
+sf::Texture bikeTexture11;
+sf::Texture bikeTexture12;
+sf::Texture bikeTexture13;
+sf::Texture bikeTexture14;
+sf::Texture bikeTexture15;
+sf::Texture bikeTexture16;
+sf::Texture bikeTexture17;
+sf::Texture bikeTexture18;
+sf::Texture bikeTexture19;
+sf::Texture bikeTexture20;
+sf::Texture bikeTexture21;
+sf::Texture bikeTexture22;
+sf::Texture bikeTexture23;
+sf::Texture bikeTexture24;
+
 sf::Event event;
 
 float birdAccumulator;
 float poleDancerAccumulator;
 float stripperAccumulator;
 float samAccumulator;
+float bikeAccumulator;
 float animateSpeed;
 bool collided;
 bool jumping; 
@@ -160,6 +187,7 @@ static void stripperAnimate(float elapsedTime)
     }
 }
 
+
 static void samAnimate(float elapsedTime)
 {
     samSprite.setTexture(samTexture1);
@@ -228,6 +256,110 @@ static void samAnimate(float elapsedTime)
     }
 }
 
+static void bikeAnimateAnimate(float elapsedTime)
+{
+    bikeSprite.setTexture(bikeTexture1);
+    bikeAccumulator += elapsedTime * animateSpeed;
+
+    if (bikeAccumulator > 1 && bikeAccumulator < 2)
+    {
+        bikeSprite.setTexture(bikeTexture2);
+    } 
+    else if (bikeAccumulator > 2 && bikeAccumulator < 3)
+    {
+        bikeSprite.setTexture(bikeTexture3);
+    }
+    else if (bikeAccumulator > 3 && bikeAccumulator < 4)
+    {
+        bikeSprite.setTexture(bikeTexture4);
+    }
+    else if (bikeAccumulator > 4 && bikeAccumulator < 5)
+    {
+        bikeSprite.setTexture(bikeTexture5);
+    }
+    else if (bikeAccumulator > 5 && bikeAccumulator < 6)
+    {
+        bikeSprite.setTexture(bikeTexture6);
+    }
+    else if (bikeAccumulator > 6 && bikeAccumulator < 7)
+    {
+        bikeSprite.setTexture(bikeTexture7);
+    }
+    else if (bikeAccumulator > 7 && bikeAccumulator < 8)
+    {
+        bikeSprite.setTexture(bikeTexture8);
+    }
+    else if (bikeAccumulator > 8 && bikeAccumulator < 9)
+    {
+        bikeSprite.setTexture(bikeTexture9);
+    }
+    else if (bikeAccumulator > 9 && bikeAccumulator < 10)
+    {
+        bikeSprite.setTexture(bikeTexture10);
+    }
+    else if (bikeAccumulator > 10 && bikeAccumulator < 11)
+    {
+        bikeSprite.setTexture(bikeTexture11);
+    }
+    else if (bikeAccumulator > 11 && bikeAccumulator < 12)
+    {
+        bikeSprite.setTexture(bikeTexture12);
+    }
+    else if (bikeAccumulator > 12 && bikeAccumulator < 13)
+    {
+        bikeSprite.setTexture(bikeTexture13);
+    }
+    else if (bikeAccumulator > 13 && bikeAccumulator < 14)
+    {
+        bikeSprite.setTexture(bikeTexture14);
+    }
+    else if (bikeAccumulator > 14 && bikeAccumulator < 15)
+    {
+        bikeSprite.setTexture(bikeTexture15);
+    }
+    else if (bikeAccumulator > 15 && bikeAccumulator < 16)
+    {
+        bikeSprite.setTexture(bikeTexture16);
+    }
+    else if (bikeAccumulator > 16 && bikeAccumulator < 17)
+    {
+        bikeSprite.setTexture(bikeTexture17);
+    }
+    else if (bikeAccumulator > 17 && bikeAccumulator < 18)
+    {
+        bikeSprite.setTexture(bikeTexture18);
+    }
+    else if (bikeAccumulator > 18 && bikeAccumulator < 19)
+    {
+        bikeSprite.setTexture(bikeTexture19);
+    }
+    else if (bikeAccumulator > 19 && bikeAccumulator < 20)
+    {
+        bikeSprite.setTexture(bikeTexture20);
+    }
+    else if (bikeAccumulator > 20 && bikeAccumulator < 21)
+    {
+        bikeSprite.setTexture(bikeTexture21);
+    }
+    else if (bikeAccumulator > 21 && bikeAccumulator < 22)
+    {
+        bikeSprite.setTexture(bikeTexture22);
+    }
+    else if (bikeAccumulator > 22 && bikeAccumulator < 23)
+    {
+        bikeSprite.setTexture(bikeTexture23);
+    }
+    else if (bikeAccumulator > 23 && bikeAccumulator < 24)
+    {
+        bikeSprite.setTexture(bikeTexture24);
+    }
+    else if (bikeAccumulator > 24)
+    {
+        bikeSprite.setTexture(bikeTexture1);
+        bikeAccumulator = 0;
+    }
+}
+
 static void birdAnimate(float elapsedTime)
 {
     bird_sprite.setTexture(birdTexture1);
@@ -259,8 +391,7 @@ static void render()
     window.draw(poleDancerSprite);
     window.draw(stripperSprite);
     window.draw(samSprite);
-    // window.draw(bird_box);
-    // window.draw(floor_box);
+    window.draw(bikeSprite);
 }
 
 static void input()
@@ -340,6 +471,31 @@ static void loadResources()
     samTexture14.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(13000, 0, 1000, 1000));
     samTexture15.loadFromFile("resources/SamSpriteMoneySheet.png", sf::IntRect(14000, 0, 1000, 1000));
 
+    bikeTexture1.loadFromFile("resources/BikeSheet.png", sf::IntRect(0, 0, 2000, 2000));
+    bikeTexture2.loadFromFile("resources/BikeSheet.png", sf::IntRect(2000, 0, 2000, 2000));
+    bikeTexture3.loadFromFile("resources/BikeSheet.png", sf::IntRect(4000, 0, 2000, 2000));
+    bikeTexture4.loadFromFile("resources/BikeSheet.png", sf::IntRect(6000, 0, 2000, 2000));
+    bikeTexture5.loadFromFile("resources/BikeSheet.png", sf::IntRect(8000, 0, 2000, 2000));
+    bikeTexture6.loadFromFile("resources/BikeSheet.png", sf::IntRect(10000, 0, 2000, 2000));
+    bikeTexture7.loadFromFile("resources/BikeSheet.png", sf::IntRect(12000, 0, 2000, 2000));
+    bikeTexture8.loadFromFile("resources/BikeSheet.png", sf::IntRect(14000, 0, 2000, 2000));
+    bikeTexture9.loadFromFile("resources/BikeSheet.png", sf::IntRect(16000, 0, 2000, 2000));
+    bikeTexture10.loadFromFile("resources/BikeSheet.png", sf::IntRect(18000, 0, 2000, 2000));
+    bikeTexture11.loadFromFile("resources/BikeSheet.png", sf::IntRect(20000, 0, 2000, 2000));
+    bikeTexture12.loadFromFile("resources/BikeSheet.png", sf::IntRect(22000, 0, 2000, 2000));
+    bikeTexture13.loadFromFile("resources/BikeSheet.png", sf::IntRect(24000, 0, 2000, 2000));
+    bikeTexture14.loadFromFile("resources/BikeSheet.png", sf::IntRect(26000, 0, 2000, 2000));
+    bikeTexture15.loadFromFile("resources/BikeSheet.png", sf::IntRect(28000, 0, 2000, 2000));
+    bikeTexture16.loadFromFile("resources/BikeSheet.png", sf::IntRect(30000, 0, 2000, 2000));
+    bikeTexture17.loadFromFile("resources/BikeSheet.png", sf::IntRect(32000, 0, 2000, 2000));
+    bikeTexture18.loadFromFile("resources/BikeSheet.png", sf::IntRect(34000, 0, 2000, 2000));
+    bikeTexture19.loadFromFile("resources/BikeSheet.png", sf::IntRect(36000, 0, 2000, 2000));
+    bikeTexture20.loadFromFile("resources/BikeSheet.png", sf::IntRect(38000, 0, 2000, 2000));
+    bikeTexture21.loadFromFile("resources/BikeSheet.png", sf::IntRect(40000, 0, 2000, 2000));
+    bikeTexture22.loadFromFile("resources/BikeSheet.png", sf::IntRect(42000, 0, 2000, 2000));
+    bikeTexture23.loadFromFile("resources/BikeSheet.png", sf::IntRect(44000, 0, 2000, 2000));
+    bikeTexture24.loadFromFile("resources/BikeSheet.png", sf::IntRect(46000, 0, 2000, 2000));
+
 	music.openFromFile("resources/nice_music.ogg");
 }
 
@@ -353,9 +509,12 @@ static void init()
     floor_sprite.setTexture(floor_texture);
     poleDancerSprite.setScale(0.2, 0.2);
     poleDancerSprite.move(1000, 440);
-
+ 
     samSprite.setScale(0.2, 0.2);
     samSprite.move(800, 440);
+
+    bikeSprite.setScale(0.1, 0.1);
+    bikeSprite.move(100, 100);
 
     stripperSprite.setScale(0.2, 0.2);    
     stripperSprite.move(900, 440);
@@ -363,8 +522,10 @@ static void init()
     floor_box.move(0, 600);
     bird_sprite.setTexture(birdTexture1);
     bird_sprite.setScale(4, 4);
+
     bird_sprite.move(160, 240);
     bird_box.move(178,258);
+
     floor_sprite.move(0, 600);
     music.play();
     collided = false;
@@ -397,6 +558,7 @@ int main(int, char const**)
         poleDancerAnimate(elapsed.asSeconds());
         stripperAnimate(elapsed.asSeconds());
         samAnimate(elapsed.asSeconds());
+        bikeAnimateAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
         render();
