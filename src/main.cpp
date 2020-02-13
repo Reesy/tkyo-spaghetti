@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
-//#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
@@ -16,7 +16,7 @@ sf::Sprite background;
 
 sf::Sprite floor_sprite;
 
-//sf::Music music;
+sf::Music music;
 sf::RectangleShape bike_box(sf::Vector2f(100, 45));
 
 sf::RectangleShape floor_box(sf::Vector2f(1280, 50));
@@ -367,10 +367,9 @@ static void loadResources()
 
     samTexture.loadFromFile("resources/SamSpriteMoneySheet.png");
 
-     bikeTexture.loadFromFile("resources/BikeSheet.png");
-  
+    bikeTexture.loadFromFile("resources/BikeSheet.png");
  
-//	music.openFromFile("resources/nice_music.ogg");
+	music.openFromFile("resources/cyber_sam.wav");
 }
 
 static void init()
@@ -396,7 +395,8 @@ static void init()
     floor_box.move(0, 600);
 
     floor_sprite.move(0, 600);
-    //music.play();
+    music.play();
+    music.setLoop(true);
     collided = false;
     animateSpeed = 7;
     jumping = false;
