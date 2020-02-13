@@ -17,16 +17,9 @@ sf::Sprite background;
 sf::Sprite floor_sprite;
 
 //sf::Music music;
-
-sf::RectangleShape bird_box(sf::Vector2f(55, 45));
+sf::RectangleShape bike_box(sf::Vector2f(100, 45));
 
 sf::RectangleShape floor_box(sf::Vector2f(1280, 50));
-
-sf::Texture birdTexture1;
-sf::Sprite bird_sprite;
-
-sf::Texture birdTexture2;
-sf::Texture birdTexture3;
 
 sf::Sprite poleDancerSprite;
 sf::Texture poleDancerTexture;
@@ -38,12 +31,10 @@ sf::Sprite samSprite;
 sf::Texture samTexture;
 
 sf::Sprite bikeSprite;
-sf::Texture bikeTexture1;
-sf::Texture bikeTexture2;
+sf::Texture bikeTexture;
 
 sf::Event event;
 
-float birdAccumulator;
 float poleDancerAccumulator;
 float stripperAccumulator;
 float samAccumulator;
@@ -55,7 +46,7 @@ float timeOfClick;
 
 static void checkCollision()
 { 
-    if (bird_box.getGlobalBounds().intersects(floor_box.getGlobalBounds()))
+    if (bike_box.getGlobalBounds().intersects(floor_box.getGlobalBounds()))
     {
         collided = true;
     }
@@ -76,13 +67,13 @@ static void update(float elapsed)
 
     if (jumping)
     {
-        bird_sprite.move(0, -10);
-        bird_box.move(0, -10);
+        bikeSprite.move(0, -10);
+        bike_box.move(0, -10);
     } 
     else if (!collided)
     {
-        bird_sprite.move(0, 4);
-        bird_box.move(0, 4);
+        bikeSprite.move(0, 4);
+        bike_box.move(0, 4);
     }
 }
 
@@ -214,140 +205,114 @@ static void samAnimate(float elapsedTime)
 
 static void bikeAnimate(float elapsedTime)
 {
-    bikeSprite.setTexture(bikeTexture1);
-    bikeSprite.setTextureRect(sf::IntRect(0, 0, 2000, 2000));
+    bikeSprite.setTexture(bikeTexture);
+    bikeSprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
     bikeAccumulator += elapsedTime * animateSpeed;
 
     if (bikeAccumulator > 1 && bikeAccumulator < 2)
     {
-        bikeSprite.setTextureRect(sf::IntRect(2000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
     } 
     else if (bikeAccumulator > 2 && bikeAccumulator < 3)
     {
-        bikeSprite.setTextureRect(sf::IntRect(4000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(400, 0, 200, 200));
     }
     else if (bikeAccumulator > 3 && bikeAccumulator < 4)
     {
-        bikeSprite.setTextureRect(sf::IntRect(6000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(600, 0, 200, 200));
     }
     else if (bikeAccumulator > 4 && bikeAccumulator < 5)
     {
-        bikeSprite.setTextureRect(sf::IntRect(8000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(800, 0, 200, 200));
     }
     else if (bikeAccumulator > 5 && bikeAccumulator < 6)
     {
-        bikeSprite.setTextureRect(sf::IntRect(10000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(1000, 0, 200, 200));
     }
     else if (bikeAccumulator > 6 && bikeAccumulator < 7)
     {
-        bikeSprite.setTextureRect(sf::IntRect(12000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(1200, 0, 200, 200));
     }
     else if (bikeAccumulator > 7 && bikeAccumulator < 8)
     {
-        bikeSprite.setTextureRect(sf::IntRect(14000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(1400, 0, 200, 200));
     }
     else if (bikeAccumulator > 8 && bikeAccumulator < 9)
     {
-        bikeSprite.setTextureRect(sf::IntRect(16000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(1600, 0, 200, 200));
     }
     else if (bikeAccumulator > 9 && bikeAccumulator < 10)
     {
-        bikeSprite.setTextureRect(sf::IntRect(18000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(1800, 0, 200, 200));
     }
     else if (bikeAccumulator > 10 && bikeAccumulator < 11)
     {
-        bikeSprite.setTextureRect(sf::IntRect(20000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(2000, 0, 200, 200));
     }
     else if (bikeAccumulator > 11 && bikeAccumulator < 12)
     {
-        bikeSprite.setTextureRect(sf::IntRect(22000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(2200, 0, 200, 200));
     }
     else if (bikeAccumulator > 12 && bikeAccumulator < 13)
     {
-        //new texture 
-        bikeSprite.setTexture(bikeTexture2);
-        bikeSprite.setTextureRect(sf::IntRect(0, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(2400, 0, 200, 200));
     }
     else if (bikeAccumulator > 13 && bikeAccumulator < 14)
     {
-        bikeSprite.setTextureRect(sf::IntRect(2000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(2600, 0, 200, 200));
     }
     else if (bikeAccumulator > 14 && bikeAccumulator < 15)
     {
-        bikeSprite.setTextureRect(sf::IntRect(4000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(2800, 0, 200, 200));
     }
     else if (bikeAccumulator > 15 && bikeAccumulator < 16)
     {
-        bikeSprite.setTextureRect(sf::IntRect(6000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(3000, 0, 200, 200));
     }
     else if (bikeAccumulator > 16 && bikeAccumulator < 17)
     {
-        bikeSprite.setTextureRect(sf::IntRect(8000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(3200, 0, 200, 200));
     }
     else if (bikeAccumulator > 17 && bikeAccumulator < 18)
     {
-        bikeSprite.setTextureRect(sf::IntRect(10000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(3400, 0, 200, 200));
     }
     else if (bikeAccumulator > 18 && bikeAccumulator < 19)
     {
-        bikeSprite.setTextureRect(sf::IntRect(12000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(3600, 0, 200, 200));
     }
     else if (bikeAccumulator > 19 && bikeAccumulator < 20)
     {
-        bikeSprite.setTextureRect(sf::IntRect(14000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(3800, 0, 200, 200));
     }
     else if (bikeAccumulator > 20 && bikeAccumulator < 21)
     {
-        bikeSprite.setTextureRect(sf::IntRect(16000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(4000, 0, 200, 200));
     }
     else if (bikeAccumulator > 21 && bikeAccumulator < 22)
     {
-        bikeSprite.setTextureRect(sf::IntRect(18000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(4200, 0, 200, 200));
     }
     else if (bikeAccumulator > 22 && bikeAccumulator < 23)
     {
-        bikeSprite.setTextureRect(sf::IntRect(20000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(4600, 0, 200, 200));
     }
     else if (bikeAccumulator > 23 && bikeAccumulator < 24)
     {
-        bikeSprite.setTextureRect(sf::IntRect(22000, 0, 2000, 2000));
+        bikeSprite.setTextureRect(sf::IntRect(4800, 0, 200, 200));
         bikeAccumulator = 0;
     }
 
 }
 
-static void birdAnimate(float elapsedTime)
-{
-    bird_sprite.setTexture(birdTexture1);
-    birdAccumulator += elapsedTime * animateSpeed;
-  
-    if (birdAccumulator > 1 && birdAccumulator < 2)
-    {
-        bird_sprite.setTexture(birdTexture1);
-    }
-    else if (birdAccumulator > 2 && birdAccumulator < 3)
-    {
-        bird_sprite.setTexture(birdTexture2);
-    }
-    else if (birdAccumulator > 3 && birdAccumulator < 4)
-    {
-        bird_sprite.setTexture(birdTexture3);
-    }
-    else if (birdAccumulator > 4)
-    {
-        bird_sprite.setTexture(birdTexture2);
-        birdAccumulator = 0;
-    }
-}
-
 static void render()
 {
     window.draw(floor_sprite);
-    window.draw(bird_sprite);
     window.draw(poleDancerSprite);
     window.draw(stripperSprite);
     window.draw(samSprite);
     window.draw(bikeSprite);
+
 }
 
 static void input()
@@ -379,12 +344,12 @@ static void input()
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
     {
-        bird_sprite.setTexture(birdTexture1);
+       //currently does nothing
     }
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
     {
-        bird_sprite.setTexture(birdTexture2);
+        //currently does nothing
     }
 }
 
@@ -394,9 +359,6 @@ static void loadResources()
 	icon.loadFromFile("resources/icon.png");
     background_texture.loadFromFile("resources/flappy2.png", sf::IntRect(0, 0, 145, 250));
     floor_texture.loadFromFile("resources/flappy2.png", sf::IntRect(150, 0, 150, 50));
-	birdTexture1.loadFromFile("resources/flappy.png", sf::IntRect(220, 120, 20, 20));
-	birdTexture2.loadFromFile("resources/flappy.png", sf::IntRect(261, 86, 20, 20));
-	birdTexture3.loadFromFile("resources/flappy.png", sf::IntRect(261, 60, 20, 20));
 
     //poledancer textures
     poleDancerTexture.loadFromFile("resources/PoledanceSheet.png");
@@ -405,8 +367,8 @@ static void loadResources()
 
     samTexture.loadFromFile("resources/SamSpriteMoneySheet.png");
 
-    // bikeTexture1.loadFromFile("resources/BikeSheet1.png");
-    // bikeTexture2.loadFromFile("resources/BikeSheet2.png");
+     bikeTexture.loadFromFile("resources/BikeSheet.png");
+  
  
 //	music.openFromFile("resources/nice_music.ogg");
 }
@@ -425,18 +387,13 @@ static void init()
     samSprite.setScale(0.2, 0.2);
     samSprite.move(800, 440);
 
-    // bikeSprite.setScale(0.14, 0.14);
-    // bikeSprite.move(110, 450);
+    bikeSprite.move(110, 450);
+    bike_box.move(165, 530);
 
     stripperSprite.setScale(0.2, 0.2);    
     stripperSprite.move(900, 440);
 
     floor_box.move(0, 600);
-    bird_sprite.setTexture(birdTexture1);
-    bird_sprite.setScale(4, 4);
-
-    bird_sprite.move(160, 240);
-    bird_box.move(178,258);
 
     floor_sprite.move(0, 600);
     //music.play();
@@ -466,11 +423,10 @@ int main(int, char const**)
         }
     
         window.clear();
-        birdAnimate(elapsed.asSeconds());
         poleDancerAnimate(elapsed.asSeconds());
         stripperAnimate(elapsed.asSeconds());
         samAnimate(elapsed.asSeconds());
-       // bikeAnimate(elapsed.asSeconds());
+        bikeAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
         render();
