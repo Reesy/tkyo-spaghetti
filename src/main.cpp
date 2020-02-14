@@ -296,10 +296,6 @@ static void bikeAnimate(float elapsedTime)
     else if (bikeAccumulator > 22 && bikeAccumulator < 23)
     {
         bikeSprite.setTextureRect(sf::IntRect(4600, 0, 200, 200));
-    }
-    else if (bikeAccumulator > 23 && bikeAccumulator < 24)
-    {
-        bikeSprite.setTextureRect(sf::IntRect(4800, 0, 200, 200));
         bikeAccumulator = 0;
     }
 
