@@ -24,6 +24,11 @@ sf::Texture pole_dancer_texture;
 sf::Sprite stripper_sprite;
 sf::Texture stripper_texture;
 
+sf::Texture street_texture;
+sf::Sprite street_sprite_beginning;
+sf::Sprite street_sprite_middle;
+sf::Sprite street_sprite_end;
+
 sf::Sprite sam_sprite;
 sf::Texture sam_texture;
 
@@ -349,7 +354,7 @@ static void input()
 
 static void loadResources()
 {
-	icon.loadFromFile("resources/icon.png");
+	icon.loadFromFile("resources/sam_icon_2.png");
 
     pole_dancer_texture.loadFromFile("resources/pole_dance_sheet.png");
     
@@ -360,6 +365,8 @@ static void loadResources()
     bike_texture.loadFromFile("resources/bike_sheet.png");
  
 	music.openFromFile("resources/cyber_sam.wav");
+
+    street_texture.loadFromFile("resources/street_sheet.png");
 }
 
 static void init()
@@ -377,6 +384,13 @@ static void init()
     floor_sprite.move(0, 600);
     
     animate_speed = 7;
+
+    street_sprite_beginning.setTexture(street_texture);
+    street_sprite_middle.setTexture(street_texture);
+    street_sprite_end.setTexture(street_texture);
+    street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
+    street_sprite_middle.setTextureRect(sf::IntRect(0, 200, 200, 200));
+    street_sprite_end.setTextureRect(sf::IntRect(0, 400, 200, 200));
 
     // music.play();
     // music.setLoop(true);
