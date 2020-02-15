@@ -11,8 +11,6 @@ sf::Image icon;
 
 sf::Texture floor_texture;
 
-sf::Sprite floor_sprite;
-
 sf::Music music;
 sf::RectangleShape bike_box(sf::Vector2f(100, 45));
 
@@ -43,9 +41,14 @@ float sam_accumulator;
 float bike_accumulator;
 float animate_speed;
 float time_of_click;
+
+
 bool collided;
 bool jumping; 
 bool game_over;
+bool debug_render = false;
+
+sf::Color background_color(91, 10, 145);
 
 static void checkCollision()
 { 
@@ -305,12 +308,18 @@ static void bikeAnimate(float elapsedTime)
 }
 
 static void render()
-{
+{    
+    window.draw(street_sprite_beginning);
+    window.draw(street_sprite_middle);
+    window.draw(street_sprite_end);
+    window.draw(bike_sprite);
     
-    window.draw(floor_sprite);
+}
+
+static void debugRender()
+{
     window.draw(bike_box);
     window.draw(floor_box);
-    window.draw(bike_sprite);
 }
 
 static void input()
@@ -326,7 +335,12 @@ static void input()
     {
         window.close();
     }
-    
+
+    if (event.type == sf::Event::KeyPressed && event.key.code ==sf::Keyboard::F1)
+    {
+        debug_render =! debug_render;
+    }
+
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
     {
         if (collided)
@@ -375,25 +389,38 @@ static void init()
     window.setFramerateLimit(60);
 
     bike_sprite.move(110, 450);
+    
+    
+    
+    
     bike_box.move(165, 530);
-
-    floor_sprite.setScale(10, 3);
-    floor_sprite.setTexture(floor_texture);
-    
     floor_box.move(0, 600);
-    floor_sprite.move(0, 600);
-    
+
     animate_speed = 7;
 
     street_sprite_beginning.setTexture(street_texture);
     street_sprite_middle.setTexture(street_texture);
     street_sprite_end.setTexture(street_texture);
-    street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
-    street_sprite_middle.setTextureRect(sf::IntRect(0, 200, 200, 200));
-    street_sprite_end.setTextureRect(sf::IntRect(0, 400, 200, 200));
 
-    // music.play();
-    // music.setLoop(true);
+    street_sprite_beginning.setScale(3, 3);
+    street_sprite_middle.setScale(3, 3);
+    street_sprite_end.setScale(3, 3);
+
+    street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
+    street_sprite_middle.setTextureRect(sf::IntRect(200, 0, 200, 200));
+    street_sprite_end.setTextureRect(sf::IntRect(400, 0, 200, 200));
+
+
+    street_sprite_beginning.move(-50, 480);
+    street_sprite_middle.move(150, 480);
+    street_sprite_end.move(250, 480);
+
+    bike_box.setFillColor(sf::Color::Transparent);
+    bike_box.setOutlineThickness(1);
+    bike_box.setOutlineColor(sf::Color(255, 255, 255));
+
+    music.play();
+    music.setLoop(true);
 }
 
 
@@ -427,11 +454,18 @@ int main(int, char const**)
             input();
         }
     
-        window.clear();
+        window.clear(background_color);
         bikeAnimate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
+        
         render();
+
+        if (debug_render)
+        {
+            debugRender();
+        }
+        
         window.display();
         
     }
