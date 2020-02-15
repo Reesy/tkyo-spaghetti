@@ -37,9 +37,9 @@ float stripper_accumulator;
 float sam_accumulator;
 float bike_accumulator;
 float animate_speed;
+float time_of_click;
 bool collided;
 bool jumping; 
-float time_of_click;
 bool game_over;
 
 static void checkCollision()
