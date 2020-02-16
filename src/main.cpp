@@ -412,8 +412,8 @@ static void init()
 
 
     street_sprite_beginning.move(-50, 480);
-    street_sprite_middle.move(150, 480);
-    street_sprite_end.move(250, 480);
+    street_sprite_middle.move(250, 480);
+    street_sprite_end.move(550, 480);
 
     bike_box.setFillColor(sf::Color::Transparent);
     bike_box.setOutlineThickness(1);
