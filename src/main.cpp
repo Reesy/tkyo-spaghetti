@@ -50,13 +50,53 @@ bool debug_render = false;
 
 sf::Color background_color(91, 10, 145);
 
+class IVisible
+{   
+    public: 
+        virtual void render() = 0;
+};
+
+class IMovable
+{
+    public:
+        virtual void move(int x, int y) = 0;
+};
+
+class IAnimatable: public IVisible
+{
+    public: 
+        virtual void animate(int speed, int tileOffset) = 0;
+        virtual void render() = 0;
+};
+
+class Player: public IMovable,
+              public IAnimatable
+{
+    public: 
+
+        void move(int x, int y)
+        {
+            std::cout << "Currently does nothing" << x << std::endl;
+        }
+
+        void animate(int speed, int tileOffset)
+        {
+            std::cout << "Also does nothing" << std::endl;
+        }
+
+        void render()
+        {
+            std::cout << "Also renders nothing" << std::endl;
+        }
+};
+
 static void checkCollision()
 { 
     if (bike_box.getGlobalBounds().intersects(floor_box.getGlobalBounds()))
     {
         collided = true;
     }
-}
+};
 
 static void update(float elapsed)
 {
@@ -81,7 +121,7 @@ static void update(float elapsed)
         bike_sprite.move(0, 4);
         bike_box.move(0, 4);
     }
-}
+};
 
 static void poleDancerAnimate(float elapsedTime)
 {
@@ -110,7 +150,7 @@ static void poleDancerAnimate(float elapsedTime)
         pole_dancer_sprite.setTextureRect(sf::IntRect(4000, 0, 1000, 1000));
         pole_dancer_accumulator = 0;
     }
-}
+};
 
 static void stripperAnimate(float elapsedTime)
 {
@@ -139,7 +179,7 @@ static void stripperAnimate(float elapsedTime)
         stripper_sprite.setTextureRect(sf::IntRect(0, 0, 1000, 1000));
         stripper_accumulator = 0;
     }
-}
+};
 
 
 static void samAnimate(float elapsedTime)
@@ -207,7 +247,7 @@ static void samAnimate(float elapsedTime)
         sam_accumulator = 0;
     }
 
-}
+};
 
 static void bikeAnimate(float elapsedTime)
 {
@@ -305,7 +345,7 @@ static void bikeAnimate(float elapsedTime)
         bike_accumulator = 0;
     }
 
-}
+};
 
 static void render()
 {    
@@ -314,13 +354,13 @@ static void render()
     window.draw(street_sprite_end);
     window.draw(bike_sprite);
     
-}
+};
 
 static void debugRender()
 {
     window.draw(bike_box);
     window.draw(floor_box);
-}
+};
 
 static void input()
 {
@@ -381,7 +421,7 @@ static void loadResources()
 	music.openFromFile("resources/cyber_sam.wav");
 
     street_texture.loadFromFile("resources/street_sheet.png");
-}
+};
 
 static void init()
 {
@@ -419,9 +459,9 @@ static void init()
     bike_box.setOutlineThickness(1);
     bike_box.setOutlineColor(sf::Color(255, 255, 255));
 
-    music.play();
-    music.setLoop(true);
-}
+    // music.play();
+    // music.setLoop(true);
+};
 
 
 static void gameStart()
@@ -431,7 +471,7 @@ static void gameStart()
     // collided = false;
 
     // jumping = false;
-}
+};
 
 
 int main(int, char const**)
@@ -468,8 +508,11 @@ int main(int, char const**)
         
         window.display();
         
-    }
+    };
 
+    Player sam;
+    sam.move(10, 10);
+    
     return EXIT_SUCCESS;
 
-}
+};
