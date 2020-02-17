@@ -52,6 +52,9 @@ sf::Color background_color(91, 10, 145);
 
 class IVisible
 {   
+
+    private: 
+        sf::Texture texture;
     public: 
         virtual void render() = 0;
 };
@@ -63,7 +66,9 @@ class IMovable
 };
 
 class IAnimatable: public IVisible
-{
+{   
+    private:
+        sf::Texture texture;
     public: 
         virtual void animate(int speed, int tileOffset) = 0;
         virtual void render() = 0;
@@ -459,8 +464,8 @@ static void init()
     bike_box.setOutlineThickness(1);
     bike_box.setOutlineColor(sf::Color(255, 255, 255));
 
-    // music.play();
-    // music.setLoop(true);
+   // music.play();
+   // music.setLoop(true);
 };
 
 
