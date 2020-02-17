@@ -3,6 +3,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <math.h>
+#include <IMovable.hpp>
+#include <IVisible.hpp>
+#include <IAnimatable.hpp>
 
 //game objects
 sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
@@ -49,30 +52,6 @@ bool game_over;
 bool debug_render = false;
 
 sf::Color background_color(91, 10, 145);
-
-class IVisible
-{   
-
-    private: 
-        sf::Texture texture;
-    public: 
-        virtual void render() = 0;
-};
-
-class IMovable
-{
-    public:
-        virtual void move(int x, int y) = 0;
-};
-
-class IAnimatable: public IVisible
-{   
-    private:
-        sf::Texture texture;
-    public: 
-        virtual void animate(int speed, int tileOffset) = 0;
-        virtual void render() = 0;
-};
 
 class Player: public IMovable,
               public IAnimatable
