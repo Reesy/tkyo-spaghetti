@@ -6,6 +6,7 @@
 #include <IMovable.hpp>
 #include <IVisible.hpp>
 #include <IAnimatable.hpp>
+#include <IPlayer.hpp>
 
 //game objects
 sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
@@ -53,26 +54,6 @@ bool debug_render = false;
 
 sf::Color background_color(91, 10, 145);
 
-class Player: public IMovable,
-              public IAnimatable
-{
-    public: 
-
-        void move(int x, int y)
-        {
-            std::cout << "Currently does nothing" << x << std::endl;
-        }
-
-        void animate(int speed, int tileOffset)
-        {
-            std::cout << "Also does nothing" << std::endl;
-        }
-
-        void render()
-        {
-            std::cout << "Also renders nothing" << std::endl;
-        }
-};
 
 static void checkCollision()
 { 
