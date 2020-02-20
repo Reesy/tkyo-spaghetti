@@ -8,11 +8,17 @@ Player::Player(sf::Texture _texture)
     this->sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
     this->x = 0;
     this->y = 0;
+    this->bounds = sf::RectangleShape(sf::Vector2f(100, 45));
+    this->bounds.setFillColor(sf::Color::Transparent);
+    this->bounds.setOutlineThickness(1);
+    this->bounds.setOutlineColor(sf::Color(255, 255, 255));
+    this->bounds.move(55, 80);
 };
 
 void Player::move(int x, int y)
 {
     this->sprite.move(x, y);
+    this->bounds.move(x, y);
 };
 
 void Player::animate(float elapsedTime)
@@ -115,3 +121,8 @@ void Player::render(sf::RenderWindow &window)
 {
     window.draw(this->sprite);
 };
+
+void Player::renderCollider(sf::RenderWindow &window)
+{
+    window.draw(this->bounds);
+}
