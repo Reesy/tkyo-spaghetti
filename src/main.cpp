@@ -39,6 +39,8 @@ sf::Texture bike_texture;
 
 sf::Event event;
 
+Player* sam;
+
 float pole_dancer_accumulator;
 float stripper_accumulator;
 float sam_accumulator;
@@ -78,12 +80,12 @@ static void update(float elapsed)
 
     if (jumping)
     {
-        bike_sprite.move(0, -10);
+        sam->move(0, -10);
         bike_box.move(0, -10);
     } 
     else if (!collided)
     {
-        bike_sprite.move(0, 4);
+        sam->move(0, 4);
         bike_box.move(0, 4);
     }
 };
@@ -214,110 +216,12 @@ static void samAnimate(float elapsedTime)
 
 };
 
-static void bikeAnimate(float elapsedTime)
-{
-    bike_sprite.setTexture(bike_texture);
-    bike_sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
-    bike_accumulator += elapsedTime * animate_speed;
-
-    if (bike_accumulator > 1 && bike_accumulator < 2)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
-    } 
-    else if (bike_accumulator > 2 && bike_accumulator < 3)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(400, 0, 200, 200));
-    }
-    else if (bike_accumulator > 3 && bike_accumulator < 4)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(600, 0, 200, 200));
-    }
-    else if (bike_accumulator > 4 && bike_accumulator < 5)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(800, 0, 200, 200));
-    }
-    else if (bike_accumulator > 5 && bike_accumulator < 6)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(1000, 0, 200, 200));
-    }
-    else if (bike_accumulator > 6 && bike_accumulator < 7)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(1200, 0, 200, 200));
-    }
-    else if (bike_accumulator > 7 && bike_accumulator < 8)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(1400, 0, 200, 200));
-    }
-    else if (bike_accumulator > 8 && bike_accumulator < 9)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(1600, 0, 200, 200));
-    }
-    else if (bike_accumulator > 9 && bike_accumulator < 10)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(1800, 0, 200, 200));
-    }
-    else if (bike_accumulator > 10 && bike_accumulator < 11)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(2000, 0, 200, 200));
-    }
-    else if (bike_accumulator > 11 && bike_accumulator < 12)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(2200, 0, 200, 200));
-    }
-    else if (bike_accumulator > 12 && bike_accumulator < 13)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(2400, 0, 200, 200));
-    }
-    else if (bike_accumulator > 13 && bike_accumulator < 14)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(2600, 0, 200, 200));
-    }
-    else if (bike_accumulator > 14 && bike_accumulator < 15)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(2800, 0, 200, 200));
-    }
-    else if (bike_accumulator > 15 && bike_accumulator < 16)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(3000, 0, 200, 200));
-    }
-    else if (bike_accumulator > 16 && bike_accumulator < 17)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(3200, 0, 200, 200));
-    }
-    else if (bike_accumulator > 17 && bike_accumulator < 18)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(3400, 0, 200, 200));
-    }
-    else if (bike_accumulator > 18 && bike_accumulator < 19)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(3600, 0, 200, 200));
-    }
-    else if (bike_accumulator > 19 && bike_accumulator < 20)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(3800, 0, 200, 200));
-    }
-    else if (bike_accumulator > 20 && bike_accumulator < 21)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(4000, 0, 200, 200));
-    }
-    else if (bike_accumulator > 21 && bike_accumulator < 22)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(4200, 0, 200, 200));
-    }
-    else if (bike_accumulator > 22 && bike_accumulator < 23)
-    {
-        bike_sprite.setTextureRect(sf::IntRect(4600, 0, 200, 200));
-        bike_accumulator = 0;
-    }
-
-};
-
 static void render()
 {    
     window.draw(street_sprite_beginning);
     window.draw(street_sprite_middle);
     window.draw(street_sprite_end);
-    window.draw(bike_sprite);
+    sam->render(window);
     
 };
 
@@ -392,12 +296,9 @@ static void init()
 {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
-
-    bike_sprite.move(110, 450);
-    
-    
-    
-    
+    sam = new Player(bike_texture);
+  //  bike_sprite.move(110, 450);
+    sam->move(110, 450);
     bike_box.move(165, 530);
     floor_box.move(0, 600);
 
@@ -460,7 +361,7 @@ int main(int, char const**)
         }
     
         window.clear(background_color);
-        bikeAnimate(elapsed.asSeconds());
+        sam->animate(elapsed.asSeconds());
         update(elapsed.asSeconds());
         checkCollision();
         
@@ -475,8 +376,7 @@ int main(int, char const**)
         
     };
 
-    Player sam;
-    sam.move(10, 10);
+    sam->move(10, 10);
     
     return EXIT_SUCCESS;
 
