@@ -136,7 +136,7 @@ static void loadResources()
 {
 	icon.loadFromFile("resources/sam_icon_2.png");
 
-    bike_texture.loadFromFile("resources/bike_sheet.png");
+    bike_texture.loadFromFile("resources/bike_sheet_sam.png");
  
 	music.openFromFile("resources/cyber_sam.wav");
 
