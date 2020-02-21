@@ -19,10 +19,6 @@ sf::Texture bike_texture;
 sf::Music music;
 sf::RectangleShape bike_box(sf::Vector2f(100, 45));
 
-sf::RectangleShape floor_box(sf::Vector2f(1280, 50));
-
-
-
 sf::Texture street_texture;
 sf::Sprite street_sprite_beginning;
 sf::Sprite street_sprite_middle;
@@ -32,8 +28,9 @@ sf::Event event;
 Player* sam;
 Platform* platform;
 
-
 float time_of_click;
+float scene_time = 0;
+
 bool collided;
 bool jumping; 
 bool game_over;
@@ -44,16 +41,22 @@ sf::Color background_color(91, 10, 145);
 
 static void checkCollision()
 { 
-    if (sam->bounds.getGlobalBounds().intersects(floor_box.getGlobalBounds()))
+    for (int i = 0; i < platform->getBounds().size(); i++)
     {
-        collided = true;
+        if (sam->bounds.getGlobalBounds().intersects(platform->getBounds()[i].getGlobalBounds()))
+        {
+            collided = true;
+        }
     }
+
 };
 
 static void update(float elapsed)
 {
     float delta = elapsed * 60;
-    platform->move(-10, 0);
+  //  platform->move(-10, 0);
+
+    scene_time += delta;
     if (jumping)
     {
         time_of_click += delta;
@@ -79,7 +82,6 @@ static void render()
 {    
     platform->render(window);
     sam->render(window);
-    
 };
 
 static void debugRender()
@@ -145,15 +147,11 @@ static void loadResources()
 
 static void init()
 {
-    
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 1000, -50, 480); 
+    platform = new Platform(street_texture, 2, -50, 480); 
     sam->move(110, 450);
-    floor_box.move(0, 600);
-
-
   // music.play();
   // music.setLoop(true);
 };
@@ -167,7 +165,6 @@ int main(int, char const**)
     init();
 
     sf::Clock clock;
-
 
     // Start the game loop
     while (window.isOpen())
@@ -195,9 +192,5 @@ int main(int, char const**)
         window.display();
         
     };
-
-    sam->move(10, 10);
-    
     return EXIT_SUCCESS;
-
 };
