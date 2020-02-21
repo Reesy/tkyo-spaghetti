@@ -149,7 +149,7 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 3);
+    platform = new Platform(street_texture, 3, 0, 0);
     sam->move(110, 450);
     floor_box.move(0, 600);
 

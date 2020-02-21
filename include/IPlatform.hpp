@@ -13,10 +13,10 @@ class Platform: public IMovable,
         sf::Sprite street_sprite_end;
         std::vector<sf::Sprite> sprites;
         float animationFrameTimer;
-        
+        void createPlatform(int _length);
     public: 
         sf::RectangleShape bounds;
-        Platform(sf::Texture _texture, int length);
+        Platform(sf::Texture _texture, int _length, int x, int y);
         void move(int x, int y);
         void render(sf::RenderWindow &window);
         void renderCollider(sf::RenderWindow &window);

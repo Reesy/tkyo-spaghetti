@@ -1,7 +1,7 @@
 #include <iostream>
 #include <IPlatform.hpp>
 
-Platform::Platform(sf::Texture _texture, int length)
+Platform::Platform(sf::Texture _texture, int length, int x, int y)
 {
     this->texture = _texture;
     this->street_sprite_beginning.setTexture(this->texture);
@@ -16,7 +16,6 @@ Platform::Platform(sf::Texture _texture, int length)
     this->street_sprite_middle.setScale(3, 3);
     this->street_sprite_end.setScale(3, 3);
 
-
     this->street_sprite_beginning.move(-50, 480);
     this->street_sprite_middle.move(250, 480);
     this->street_sprite_end.move(550, 480);
@@ -29,11 +28,7 @@ Platform::Platform(sf::Texture _texture, int length)
     this->bounds.setOutlineColor(sf::Color(255, 255, 255));
     this->bounds.move(55, 80);
 
-
-    this->sprites.push_back(this->street_sprite_beginning);
-    this->sprites.push_back(this->street_sprite_middle);
-    this->sprites.push_back(this->street_sprite_end);
-
+    this->createPlatform(3);
 };
 
 void Platform::move(int x, int y)
@@ -60,3 +55,23 @@ void Platform::renderCollider(sf::RenderWindow &window)
 {
     window.draw(this->bounds);
 }
+
+void Platform::createPlatform(int _length)
+{
+
+    this->sprites.push_back(this->street_sprite_beginning);
+    this->sprites.push_back(this->street_sprite_middle);
+    this->sprites.push_back(this->street_sprite_end);
+    // int midSectionCount = 0;
+
+    // if (_length >= 3)
+    // {
+    //     midSectionCount = _length - 2;
+    // }
+
+}
+
+// 1 = 0   []
+// 2 = 0   []
+// 3 = 1   [-]
+// 4 = 2   [--]
