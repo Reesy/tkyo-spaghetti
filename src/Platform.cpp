@@ -4,22 +4,6 @@
 Platform::Platform(sf::Texture _texture, int length, int x, int y)
 {
     this->texture = _texture;
-    this->street_sprite_beginning.setTexture(this->texture);
-    this->street_sprite_middle.setTexture(this->texture);
-    this->street_sprite_end.setTexture(this->texture);
-    
-    this->street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
-    this->street_sprite_middle.setTextureRect(sf::IntRect(200, 0, 200, 200));
-    this->street_sprite_end.setTextureRect(sf::IntRect(400, 0, 200, 200));
-
-    this->street_sprite_beginning.setScale(3, 3);
-    this->street_sprite_middle.setScale(3, 3);
-    this->street_sprite_end.setScale(3, 3);
-
-    this->street_sprite_beginning.move(-50, 480);
-    this->street_sprite_middle.move(250, 480);
-    this->street_sprite_end.move(550, 480);
-
     this->x = 0;
     this->y = 0;
     this->bounds = sf::RectangleShape(sf::Vector2f(100, 45));
@@ -28,7 +12,7 @@ Platform::Platform(sf::Texture _texture, int length, int x, int y)
     this->bounds.setOutlineColor(sf::Color(255, 255, 255));
     this->bounds.move(55, 80);
 
-    this->createPlatform(3);
+    this->createPlatform(length, x, y);
 };
 
 void Platform::move(int x, int y)
@@ -56,22 +40,50 @@ void Platform::renderCollider(sf::RenderWindow &window)
     window.draw(this->bounds);
 }
 
-void Platform::createPlatform(int _length)
+void Platform::createPlatform(int _length, int x, int y)
 {
+    
+    sf::Sprite street_sprite_beginning;
+    sf::Sprite street_sprite_end;
 
-    this->sprites.push_back(this->street_sprite_beginning);
-    this->sprites.push_back(this->street_sprite_middle);
-    this->sprites.push_back(this->street_sprite_end);
-    // int midSectionCount = 0;
+    street_sprite_beginning.setTexture(this->texture);
+    street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
+    street_sprite_beginning.setScale(3, 3);
+    street_sprite_beginning.move(x, y); //-50 480 
 
-    // if (_length >= 3)
-    // {
-    //     midSectionCount = _length - 2;
-    // }
+    this->sprites.push_back(street_sprite_beginning);
+    
+    int midSectionCount = 0;
+
+    if (_length >= 3)
+    {
+        midSectionCount = _length - 2;
+
+        for (int i = 0; i < midSectionCount; i++ )
+        {
+            x = x + 300; //Platform segments should be placed further along the y segment
+            sf::Sprite middleSection;
+            middleSection.setTexture(this->texture);
+            middleSection.setTextureRect(sf::IntRect(200, 0, 200, 200));
+            middleSection.setScale(3, 3);
+            middleSection.move(x, y);
+            this->sprites.push_back(middleSection);
+        }
+    }
+    else
+    {
+        x = x + 300;
+    }
+    
+    
+    street_sprite_end.setTexture(this->texture);
+    street_sprite_end.setTextureRect(sf::IntRect(400, 0, 200, 200));
+    street_sprite_end.setScale(3, 3);
+    street_sprite_end.move(x, y);
+   
+    this->sprites.push_back(street_sprite_end);
+
 
 }
 
-// 1 = 0   []
-// 2 = 0   []
-// 3 = 1   [-]
-// 4 = 2   [--]
+

@@ -62,7 +62,7 @@ static void update(float elapsed)
             jumping = false;
         }
     }
-
+    
     if (jumping)
     {
         sam->move(0, -10);
@@ -149,13 +149,13 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 3, 0, 0);
+    platform = new Platform(street_texture, 5, -50, 480); 
     sam->move(110, 450);
     floor_box.move(0, 600);
 
 
-   // music.play();
-   // music.setLoop(true);
+  // music.play();
+  // music.setLoop(true);
 };
 
 
@@ -179,7 +179,7 @@ int main(int, char const**)
         {
             input();
         }
-    
+        
         window.clear(background_color);
         sam->animate(elapsed.asSeconds());
         update(elapsed.asSeconds());
