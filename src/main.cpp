@@ -53,10 +53,10 @@ static void checkCollision()
 
 static void update(float elapsed)
 {
+    collided = false;
+    checkCollision();
     float delta = elapsed * 60;
-  //  platform->move(-10, 0);
 
-    scene_time += delta;
     if (jumping)
     {
         time_of_click += delta;
@@ -70,7 +70,7 @@ static void update(float elapsed)
     {
         sam->move(0, -10);
     } 
-    else if (!collided)
+    if (!collided)
     {
         sam->move(0, 4);
     }
@@ -117,8 +117,6 @@ static void input()
             {
                 time_of_click = 0;
             }
-
-            collided = false;
             jumping = true;
         }
     }
@@ -152,8 +150,8 @@ static void init()
     sam = new Player(bike_texture);
     platform = new Platform(street_texture, 2, -50, 480); 
     sam->move(110, 450);
-  // music.play();
-  // music.setLoop(true);
+//   music.play();
+//   music.setLoop(true);
 };
 
 
@@ -179,9 +177,8 @@ int main(int, char const**)
         
         window.clear(background_color);
         sam->animate(elapsed.asSeconds());
+
         update(elapsed.asSeconds());
-        checkCollision();
-        
         render();
 
         if (debug_render)
