@@ -53,7 +53,7 @@ static void checkCollision()
 static void update(float elapsed)
 {
     float delta = elapsed * 60;
-
+    platform->move(-10, 0);
     if (jumping)
     {
         time_of_click += delta;
@@ -149,7 +149,7 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 5, -50, 480); 
+    platform = new Platform(street_texture, 1000, -50, 480); 
     sam->move(110, 450);
     floor_box.move(0, 600);
 
