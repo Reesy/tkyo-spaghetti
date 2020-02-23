@@ -53,6 +53,16 @@ static void checkCollision()
 
 static void update(float elapsed)
 {
+    scene_time =+ elapsed;
+
+    platform->move(-10, 0);
+
+    if (scene_time > 2)
+    {
+      //  platform = new Platform(street_texture, 0, -50, 480); 
+        scene_time = 0;
+    }
+
     collided = false;
     checkCollision();
     float delta = elapsed * 60;
@@ -148,7 +158,7 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 2, -50, 480); 
+    platform = new Platform(street_texture, 0, -50, 480); 
     sam->move(110, 450);
 //   music.play();
 //   music.setLoop(true);
