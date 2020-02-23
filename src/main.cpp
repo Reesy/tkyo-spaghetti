@@ -26,7 +26,9 @@ sf::Sprite street_sprite_end;
 sf::Event event;
 
 Player* sam;
-Platform* platform;
+// Platform* platform;
+
+std::vector <Platform*> platforms;
 
 float time_of_click;
 float scene_time = 0;
@@ -41,26 +43,34 @@ sf::Color background_color(91, 10, 145);
 
 static void checkCollision()
 { 
-    for (int i = 0; i < platform->getBounds().size(); i++)
+    for (int platformCount = 0; platformCount < platforms.size(); platformCount++)
     {
-        if (sam->bounds.getGlobalBounds().intersects(platform->getBounds()[i].getGlobalBounds()))
+        for (int colliderCount = 0; colliderCount < platforms[platformCount]->getBounds().size(); colliderCount++)
         {
-            collided = true;
+            if (sam->bounds.getGlobalBounds().intersects(platforms[platformCount]->getBounds()[colliderCount].getGlobalBounds()))
+            {
+                collided = true;
+            }
         }
     }
-
 };
 
 static void update(float elapsed)
 {
-    scene_time =+ elapsed;
+    scene_time += elapsed;
 
-    platform->move(-10, 0);
-
-    if (scene_time > 2)
+    for (int i = 0; i < platforms.size(); i++)
     {
+        platforms[i]->move(-10, 0);
+    }
+
+    if (scene_time > 1.5)
+    {
+         std::cout << scene_time << std::endl;
+        platforms.push_back(new Platform(street_texture, 0, -50, 480));
       //  platform = new Platform(street_texture, 0, -50, 480); 
         scene_time = 0;
+       
     }
 
     collided = false;
@@ -90,13 +100,21 @@ static void update(float elapsed)
 
 static void render()
 {    
-    platform->render(window);
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i]->render(window);
+    }
+    
     sam->render(window);
 };
 
 static void debugRender()
 {
-    platform->renderCollider(window);
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i]->renderCollider(window);
+    }
+   
     sam->renderCollider(window);
 };
 
@@ -133,12 +151,12 @@ static void input()
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
     {
-       platform->move(-10, 0);
+       platforms[0]->move(-10, 0);
     }
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
     {
-        platform->move(10, 0);
+        platforms[0]->move(10, 0);
     }
 }
 
@@ -158,7 +176,8 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    platform = new Platform(street_texture, 0, -50, 480); 
+    Platform* platform = new Platform(street_texture, 0, -50, 480); 
+    platforms.push_back(platform);
     sam->move(110, 450);
 //   music.play();
 //   music.setLoop(true);
