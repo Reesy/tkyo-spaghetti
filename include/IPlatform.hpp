@@ -11,7 +11,7 @@ class Platform: public IMovable,
         std::vector<sf::Sprite> sprites;
         std::vector<sf::RectangleShape> bounds;
         float animationFrameTimer;
-        void createPlatform(int _length, int x, int y);
+        void createPlatform(int _length);
     public: 
         Platform(sf::Texture _texture, int _length, int x, int y);
         int getX();

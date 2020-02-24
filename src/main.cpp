@@ -54,11 +54,18 @@ static void checkCollision()
 };
 
 // take the x position of the last element and add 600 + 200 for every mid section
-static Platform generateNextPlatform(Platform* previousPlatform)
+static Platform* generateNextPlatform(Platform* previousPlatform)
 {
-    std::cout << "Inside generate next platform function" << std::endl;
-   // int nextYPosition = 480;
- //   int nextXPosition = (previousPlatform->getX() + 300);
+    int nextXPosition = (previousPlatform->getX() + 500);
+    return new Platform(street_texture, 0, nextXPosition , 480);
+}
+
+static void destroyPlatforms()
+{
+    if (platforms[0]->getX() < -2000)
+    {
+        platforms.erase(platforms.begin());
+    }
 }
 
 static void update(float elapsed)
@@ -66,25 +73,17 @@ static void update(float elapsed)
 
     scene_time += elapsed;
 
-    // while (platforms.size() < 10)
-    // {
-    //    generateNextPlatform(platforms.back());
-    // }
+    //create platforms
+    while (platforms.size() < 7)
+    {
+        platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
+    }
 
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i]->move(-10, 0);
     }
 
-
-
-    if (scene_time > 1.5)
-    {
-        std::cout << scene_time << std::endl;
-        platforms.push_back(new Platform(street_texture, 0, -50, 480));
-        scene_time = 0;
-       
-    }
 
     collided = false;
     checkCollision();
@@ -107,6 +106,8 @@ static void update(float elapsed)
     {
         sam->move(0, 4);
     }
+
+    destroyPlatforms();
 };
 
 

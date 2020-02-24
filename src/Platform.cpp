@@ -4,23 +4,27 @@
 Platform::Platform(sf::Texture _texture, int length, int x, int y)
 {
     this->texture = _texture;
-    this->x = 0;
-    this->y = 0;
-    this->createPlatform(length, x, y);
+    this->x = x;
+    this->y = y;
+    this->createPlatform(length);
 };
 
-void Platform::move(int x, int y)
+void Platform::move(int _x, int _y)
 {
 
     for(int i = 0; i < this->sprites.size(); i++)
     {
-        this->sprites[i].move(x, y);
+        this->sprites[i].move(_x, _y);
     }
 
     for(int i = 0; i < this->bounds.size(); i++)
     {
-        this->bounds[i].move(x, y);
+        this->bounds[i].move(_x, _y);
     }
+
+    x += _x;
+    y += _y;
+
 };
 
 void Platform::render(sf::RenderWindow &window)
@@ -41,7 +45,7 @@ void Platform::renderCollider(sf::RenderWindow &window)
     }
 }
 
-void Platform::createPlatform(int _midSectionlength, int x, int y)
+void Platform::createPlatform(int _midSectionlength)
 {
     
     sf::Sprite street_sprite_beginning;
