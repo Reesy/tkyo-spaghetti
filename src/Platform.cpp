@@ -104,4 +104,12 @@ std::vector<sf::RectangleShape> Platform::getBounds()
     return bounds;
 };
 
+int Platform::getX()
+{
+    return x;
+}
 
+int Platform::getY()
+{
+    return y;
+}

@@ -26,8 +26,6 @@ sf::Sprite street_sprite_end;
 sf::Event event;
 
 Player* sam;
-// Platform* platform;
-
 std::vector <Platform*> platforms;
 
 float time_of_click;
@@ -55,20 +53,35 @@ static void checkCollision()
     }
 };
 
+// take the x position of the last element and add 600 + 200 for every mid section
+static Platform generateNextPlatform(Platform* previousPlatform)
+{
+    std::cout << "Inside generate next platform function" << std::endl;
+   // int nextYPosition = 480;
+ //   int nextXPosition = (previousPlatform->getX() + 300);
+}
+
 static void update(float elapsed)
 {
+
     scene_time += elapsed;
+
+    // while (platforms.size() < 10)
+    // {
+    //    generateNextPlatform(platforms.back());
+    // }
 
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i]->move(-10, 0);
     }
 
+
+
     if (scene_time > 1.5)
     {
-         std::cout << scene_time << std::endl;
+        std::cout << scene_time << std::endl;
         platforms.push_back(new Platform(street_texture, 0, -50, 480));
-      //  platform = new Platform(street_texture, 0, -50, 480); 
         scene_time = 0;
        
     }
@@ -149,15 +162,6 @@ static void input()
         }
     }
 
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
-    {
-       platforms[0]->move(-10, 0);
-    }
-
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
-    {
-        platforms[0]->move(10, 0);
-    }
 }
 
 static void loadResources()

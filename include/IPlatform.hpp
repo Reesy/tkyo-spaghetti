@@ -14,6 +14,8 @@ class Platform: public IMovable,
         void createPlatform(int _length, int x, int y);
     public: 
         Platform(sf::Texture _texture, int _length, int x, int y);
+        int getX();
+        int getY();
         void move(int x, int y);
         void render(sf::RenderWindow &window);
         void renderCollider(sf::RenderWindow &window);
