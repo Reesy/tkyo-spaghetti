@@ -31,5 +31,6 @@ This project comes with a .vscode folder prebundled to make debugging easier, fo
 
 SFML can be found http://www.sfml-dev.org
 
-Art By: Brandon 
+Art By: Brandon
+
 Music By: https://soundcloud.com/victor-bui-trong 
