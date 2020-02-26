@@ -2,6 +2,14 @@
 
 This is a game for the tkyosam fam. 
 
+How to clone:
+
+```
+git clone --recurse-submodules https://github.com/Reesy/TkyoSpaghetti
+```
+
+This project imports it's dependency on SFML via a git submodule in the external_resources folder.
+
 How to build:
 
 Cmake is required to build this project, aswell as ensuring a suitable C++ compiler
