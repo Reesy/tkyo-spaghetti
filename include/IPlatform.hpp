@@ -7,13 +7,13 @@ class Platform: public IMovable,
 {
     private:
         int x,y;
-        sf::Texture texture;
+        sf::Texture* texture;
         std::vector<sf::Sprite> sprites;
         std::vector<sf::RectangleShape> bounds;
         float animationFrameTimer;
         void createPlatform(int _length);
     public: 
-        Platform(sf::Texture _texture, int _length, int x, int y);
+        Platform(sf::Texture* _texture, int _length, int x, int y);
         int getX();
         int getY();
         void move(int x, int y);

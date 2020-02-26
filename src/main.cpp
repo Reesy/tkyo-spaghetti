@@ -14,19 +14,15 @@ sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
 
 sf::Image icon;
 
-sf::Texture floor_texture;
 sf::Texture bike_texture;
 sf::Music music;
 sf::RectangleShape bike_box(sf::Vector2f(100, 45));
 
-sf::Texture street_texture;
-sf::Sprite street_sprite_beginning;
-sf::Sprite street_sprite_middle;
-sf::Sprite street_sprite_end;
+sf::Texture* street_texture;
 sf::Event event;
 
 Player* sam;
-std::vector <Platform*> platforms;
+std::vector <Platform> platforms;
 
 float time_of_click;
 float scene_time = 0;
@@ -43,9 +39,9 @@ static void checkCollision()
 { 
     for (int platformCount = 0; platformCount < platforms.size(); platformCount++)
     {
-        for (int colliderCount = 0; colliderCount < platforms[platformCount]->getBounds().size(); colliderCount++)
+        for (int colliderCount = 0; colliderCount < platforms[platformCount].getBounds().size(); colliderCount++)
         {
-            if (sam->bounds.getGlobalBounds().intersects(platforms[platformCount]->getBounds()[colliderCount].getGlobalBounds()))
+            if (sam->bounds.getGlobalBounds().intersects(platforms[platformCount].getBounds()[colliderCount].getGlobalBounds()))
             {
                 collided = true;
             }
@@ -54,15 +50,15 @@ static void checkCollision()
 };
 
 // take the x position of the last element and add 600 + 200 for every mid section
-static Platform* generateNextPlatform(Platform* previousPlatform)
+static Platform generateNextPlatform(Platform previousPlatform)
 {
-    int nextXPosition = (previousPlatform->getX() + 500);
-    return new Platform(street_texture, 0, nextXPosition , 480);
+    int nextXPosition = (previousPlatform.getX() + 500);
+    return Platform(street_texture, 0, nextXPosition , 480);
 }
 
 static void destroyPlatforms()
 {
-    if (platforms[0]->getX() < -2000)
+    if (platforms[0].getX() < -2000)
     {
         platforms.erase(platforms.begin());
     }
@@ -81,7 +77,7 @@ static void update(float elapsed)
 
     for (int i = 0; i < platforms.size(); i++)
     {
-        platforms[i]->move(-10, 0);
+        platforms[i].move(-10, 0);
     }
 
 
@@ -116,7 +112,7 @@ static void render()
 {    
     for (int i = 0; i < platforms.size(); i++)
     {
-        platforms[i]->render(window);
+        platforms[i].render(window);
     }
     
     sam->render(window);
@@ -126,7 +122,7 @@ static void debugRender()
 {
     for (int i = 0; i < platforms.size(); i++)
     {
-        platforms[i]->renderCollider(window);
+        platforms[i].renderCollider(window);
     }
    
     sam->renderCollider(window);
@@ -172,8 +168,8 @@ static void loadResources()
     bike_texture.loadFromFile("resources/bike_sheet_sam.png");
  
 	music.openFromFile("resources/cyber_sam.wav");
-
-    street_texture.loadFromFile("resources/street_sheet.png");
+    street_texture = new sf::Texture();
+    street_texture->loadFromFile("resources/street_sheet.png");
 };
 
 static void init()
@@ -181,7 +177,7 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    Platform* platform = new Platform(street_texture, 0, -50, 480); 
+    Platform platform = Platform(street_texture, 0, -50, 480); 
     platforms.push_back(platform);
     sam->move(110, 450);
 //   music.play();
