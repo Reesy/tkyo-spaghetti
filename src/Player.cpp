@@ -25,7 +25,11 @@ void Player::animate(float elapsedTime)
 {
     this->sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
     this->animationFrameTimer += elapsedTime * 7;
-
+    
+    if (this->animationFrameTimer < 0)
+    {
+        this->animationFrameTimer = 0;
+    }
     if (this->animationFrameTimer > 1 && this->animationFrameTimer < 2)
     {
         this->sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
@@ -110,10 +114,10 @@ void Player::animate(float elapsedTime)
     {
         this->sprite.setTextureRect(sf::IntRect(4200, 0, 200, 200));
     }
-    else if (this->animationFrameTimer > 22 && this->animationFrameTimer < 23)
+    else if (this->animationFrameTimer > 22)
     {
         this->sprite.setTextureRect(sf::IntRect(4600, 0, 200, 200));
-        this->animationFrameTimer = 0;
+        this->animationFrameTimer = 0; //resets the timer
     }
 };
 

@@ -13,7 +13,8 @@
             "args": [
                 "-arg1",
                 "-arg2"
-            ]   
+            ],
+            "preLaunchTask": "make"
         }
     ]
 }

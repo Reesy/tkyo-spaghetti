@@ -1,12 +1,13 @@
 #include <iostream>
 #include <IPlatform.hpp>
 
-Platform::Platform(sf::Texture* _texture, int length, int _x, int _y)
+Platform::Platform(sf::Texture* _texture, int _midSectionCount, int _x, int _y)
 {
     texture = _texture;
     x = _x;
     y = _y;
-    createPlatform(length);
+    midSectionCount = _midSectionCount;
+    createPlatform();
 };
 
 void Platform::move(int _x, int _y)
@@ -45,7 +46,7 @@ void Platform::renderCollider(sf::RenderWindow &window)
     }
 }
 
-void Platform::createPlatform(int _midSectionlength)
+void Platform::createPlatform()
 {
     
     sf::Sprite street_sprite_beginning;
@@ -67,7 +68,7 @@ void Platform::createPlatform(int _midSectionlength)
 
 
     
-    for (int i = 0; i < _midSectionlength; i++ )
+    for (int i = 0; i < midSectionCount; i++ )
     {
         x = x + 300; //Platform segments should be placed further along the y segment
         sf::Sprite middleSection;
@@ -116,4 +117,9 @@ int Platform::getX()
 int Platform::getY()
 {
     return y;
+}
+
+int Platform::getMidSectionCount()
+{
+    return midSectionCount;
 }
