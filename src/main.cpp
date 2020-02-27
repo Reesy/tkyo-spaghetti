@@ -52,8 +52,10 @@ static void checkCollision()
 // take the x position of the last element and add 600 + 200 for every mid section
 static Platform generateNextPlatform(Platform previousPlatform)
 {
+    int xoffset = (previousPlatform.getMidSectionCount() * 500);
     int nextXPosition = (previousPlatform.getX() + 500);
-    return Platform(street_texture, 0, nextXPosition , 480);
+    int nextMidSectionCount = rand() % 4;
+    return Platform(street_texture, nextMidSectionCount, nextXPosition , 480);
 }
 
 static void destroyPlatforms()
