@@ -11,28 +11,27 @@
 
 //game objects
 sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
-
 sf::Image icon;
-
-sf::Texture bike_texture;
 sf::Music music;
-sf::RectangleShape bike_box(sf::Vector2f(100, 45));
-
+sf::Texture bike_texture;
 sf::Texture* street_texture;
 sf::Event event;
-
 Player* sam;
 std::vector <Platform> platforms;
 
 float time_of_click;
-float scene_time = 0;
-
 bool collided;
 bool jumping; 
-bool game_over;
 bool debug_render = false;
 
-sf::Color background_color(91, 10, 145);
+const int platform_gap = 650;  // This controls the distance between spawned platforms
+const int platform_midsection_upper_bound = 8; // This is the upper bound count of how many midsections a platform may have
+const int platform_speed = -20;
+const int player_jump_height = -15; 
+
+//Game consts
+
+const sf::Color background_color(91, 10, 145);
 
 
 static void checkCollision()
@@ -52,9 +51,9 @@ static void checkCollision()
 // take the x position of the last element and add 600 + 200 for every mid section
 static Platform generateNextPlatform(Platform previousPlatform)
 {
-    int xoffset = (previousPlatform.getMidSectionCount() * 500);
-    int nextXPosition = (previousPlatform.getX() + 500);
-    int nextMidSectionCount = rand() % 4;
+    int xoffset = (previousPlatform.getMidSectionCount() * platform_gap);
+    int nextXPosition = (previousPlatform.getX() + platform_gap);
+    int nextMidSectionCount = rand() % platform_midsection_upper_bound;
     return Platform(street_texture, nextMidSectionCount, nextXPosition , 480);
 }
 
@@ -68,10 +67,6 @@ static void destroyPlatforms()
 
 static void update(float elapsed)
 {
-
-    scene_time += elapsed;
-
-    //create platforms
     while (platforms.size() < 7)
     {
         platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
@@ -79,9 +74,8 @@ static void update(float elapsed)
 
     for (int i = 0; i < platforms.size(); i++)
     {
-        platforms[i].move(-10, 0);
+        platforms[i].move(platform_speed, 0);
     }
-
 
     collided = false;
     checkCollision();
@@ -98,7 +92,7 @@ static void update(float elapsed)
     
     if (jumping)
     {
-        sam->move(0, -10);
+        sam->move(0, player_jump_height);
     } 
     if (!collided)
     {
