@@ -54,7 +54,9 @@ static Platform generateNextPlatform(Platform previousPlatform)
     int xoffset = (previousPlatform.getMidSectionCount() * platform_gap);
     int nextXPosition = (previousPlatform.getX() + platform_gap);
     int nextMidSectionCount = rand() % platform_midsection_upper_bound;
-    return Platform(street_texture, nextMidSectionCount, nextXPosition , 480);
+    int yoffset = rand() % 80 + (previousPlatform.getY() - 40); 
+
+    return Platform(street_texture, nextMidSectionCount, nextXPosition , yoffset);
 }
 
 static void destroyPlatforms()
