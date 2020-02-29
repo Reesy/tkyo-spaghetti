@@ -26,8 +26,10 @@ bool debug_render = false;
 
 const int platform_gap = 650;  // This controls the distance between spawned platforms
 const int platform_midsection_upper_bound = 8; // This is the upper bound count of how many midsections a platform may have
+const int platform_height_range = 200;
 const int platform_speed = -20;
 const int player_jump_height = -15; 
+
 
 //Game consts
 
@@ -48,14 +50,20 @@ static void checkCollision()
     }
 };
 
+static int round(int n) 
+{  
+    int a = (n / 10) * 10; 
+    int b = a + 10; 
+    return (n - a > b - n)? b : a; 
+} 
+
 // take the x position of the last element and add 600 + 200 for every mid section
 static Platform generateNextPlatform(Platform previousPlatform)
 {
     int xoffset = (previousPlatform.getMidSectionCount() * platform_gap);
     int nextXPosition = (previousPlatform.getX() + platform_gap);
     int nextMidSectionCount = rand() % platform_midsection_upper_bound;
-    int yoffset = rand() % 80 + (previousPlatform.getY() - 40); 
-
+    int yoffset = round(rand() % platform_height_range + (previousPlatform.getY() - (platform_height_range / 2))); 
     return Platform(street_texture, nextMidSectionCount, nextXPosition , yoffset);
 }
 
@@ -175,7 +183,7 @@ static void init()
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit(60);
     sam = new Player(bike_texture);
-    Platform platform = Platform(street_texture, 0, -50, 480); 
+    Platform platform = Platform(street_texture, 20, -50, 480); 
     platforms.push_back(platform);
     sam->move(110, 450);
 //   music.play();
