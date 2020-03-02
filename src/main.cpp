@@ -18,11 +18,16 @@ sf::Texture* street_texture;
 sf::Event event;
 Player* sam;
 std::vector <Platform> platforms;
+sf::Font font;
+sf::Text text("Score: ", font);
 
 float time_of_click;
 bool collided;
 bool jumping; 
 bool debug_render = false;
+sf::Time game_time;
+float game_score;
+
 
 const int platform_gap = 650;  // This controls the distance between spawned platforms
 const int platform_midsection_upper_bound = 3; // This is the upper bound count of how many midsections a platform may have
@@ -76,6 +81,9 @@ static void destroyPlatforms()
 
 static void update(float elapsed)
 {
+    game_score += (game_time.asSeconds() + elapsed);
+    std::string score = "Score: " + std::to_string(game_score);
+    text.setString(score);
     while (platforms.size() < 7)
     {
         platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
@@ -119,7 +127,7 @@ static void render()
     {
         platforms[i].render(window);
     }
-    
+    window.draw(text);
     sam->render(window);
 };
 
@@ -173,6 +181,8 @@ static void loadResources()
 	music.openFromFile("resources/cyber_sam.wav");
     street_texture = new sf::Texture();
     street_texture->loadFromFile("resources/street_sheet.png");
+    font.loadFromFile("resources/sansation.ttf");
+ 
 };
 
 static void init()
@@ -182,7 +192,11 @@ static void init()
     sam = new Player(bike_texture);
     Platform platform = Platform(street_texture, 10, -50, 480); 
     platforms.push_back(platform);
-    sam->move(110, 450);
+    sam->move(110, 450);  
+    text.setCharacterSize(30);
+    text.setStyle(sf::Text::Bold);
+    text.setFillColor(sf::Color::White);
+    text.move(1040, 0);
 //   music.play();
 //   music.setLoop(true);
 };
@@ -196,7 +210,7 @@ int main(int, char const**)
     init();
 
     sf::Clock clock;
-
+    game_time = clock.restart();
     // Start the game loop
     while (window.isOpen())
     {
