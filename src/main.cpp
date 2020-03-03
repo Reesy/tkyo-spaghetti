@@ -118,7 +118,6 @@ static void update(float elapsed)
     }
 
     destroyPlatforms();
-    center(window);
 };
 
 
