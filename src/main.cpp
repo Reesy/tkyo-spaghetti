@@ -68,6 +68,17 @@ static Platform generateNextPlatform(Platform previousPlatform)
     int nextXPosition = (previousPlatform.getX() + platform_gap);
     int nextMidSectionCount = rand() % platform_midsection_upper_bound;
     int yoffset = round(rand() % platform_height_range + (previousPlatform.getY() - (platform_height_range / 2)));
+    // 520 max
+    if (yoffset > 520)
+    {
+        yoffset = 520;
+    }
+    
+    if (yoffset < 120)
+    {
+        yoffset = 120;
+    }
+
     return Platform(street_texture, nextMidSectionCount, nextXPosition , yoffset);
 }
 
