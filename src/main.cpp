@@ -33,8 +33,8 @@ const int platform_gap = 650;  // This controls the distance between spawned pla
 const int platform_midsection_upper_bound = 3; // This is the upper bound count of how many midsections a platform may have
 const int platform_height_range = 200;
 const int platform_speed = -20;
-const int player_jump_height = -15; 
-
+const int player_jump_height = -75; 
+const int player_jump_speed = 25;
 
 //Game consts
 
@@ -125,7 +125,7 @@ static void update(float elapsed)
     } 
     if (!collided)
     {
-        sam->move(0, 4);
+        sam->move(0, player_jump_speed);
     }
 
     destroyPlatforms();
