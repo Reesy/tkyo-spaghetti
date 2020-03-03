@@ -15,10 +15,12 @@ Player::Player(sf::Texture _texture)
     this->bounds.move(55, 80);
 };
 
-void Player::move(int x, int y)
+void Player::move(int _x, int _y)
 {
-    this->sprite.move(x, y);
-    this->bounds.move(x, y);
+    x += _x;
+    y += _y;
+    this->sprite.move(_x, _y);
+    this->bounds.move(_x, _y);
 };
 
 void Player::animate(float elapsedTime)
@@ -129,4 +131,14 @@ void Player::render(sf::RenderWindow &window)
 void Player::renderCollider(sf::RenderWindow &window)
 {
     window.draw(this->bounds);
+}
+
+int Player::getX()
+{
+    return x;
+}
+
+int Player::getY()
+{
+    return y;
 }

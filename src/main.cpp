@@ -71,6 +71,7 @@ static Platform generateNextPlatform(Platform previousPlatform)
     return Platform(street_texture, nextMidSectionCount, nextXPosition , yoffset);
 }
 
+
 static void destroyPlatforms()
 {
     if (platforms[0].getX() < -2000)
@@ -117,6 +118,7 @@ static void update(float elapsed)
     }
 
     destroyPlatforms();
+    center(window);
 };
 
 

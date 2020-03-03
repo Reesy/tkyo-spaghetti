@@ -20,4 +20,6 @@ class Player: public IMovable,
         void animate(float elapsedTime);
         void render(sf::RenderWindow &window);
         void renderCollider(sf::RenderWindow &window);
+        int getX();
+        int getY(); 
 };
