@@ -33,8 +33,8 @@ const int platform_gap = 650;  // This controls the distance between spawned pla
 const int platform_midsection_upper_bound = 3; // This is the upper bound count of how many midsections a platform may have
 const int platform_height_range = 200;
 const int platform_speed = -20;
-const int player_jump_height = -75; 
-const int player_jump_speed = 25;
+const int player_jump_height = -35; 
+const int player_jump_speed = 20;
 
 //Game consts
 
@@ -68,7 +68,7 @@ static Platform generateNextPlatform(Platform previousPlatform)
     int nextXPosition = (previousPlatform.getX() + platform_gap);
     int nextMidSectionCount = rand() % platform_midsection_upper_bound;
     int yoffset = round(rand() % platform_height_range + (previousPlatform.getY() - (platform_height_range / 2)));
-    // 520 max
+
     if (yoffset > 520)
     {
         yoffset = 520;
