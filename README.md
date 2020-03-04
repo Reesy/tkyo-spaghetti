@@ -1,6 +1,8 @@
 # TkyoSpaghetti
 
-This is a game for the tkyosam fam. 
+This is an endless runner style game for the tkyosam fam. 
+
+![Game screenshot](game_screenshot.png)
 
 How to clone:
 
