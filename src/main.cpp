@@ -13,6 +13,8 @@
 sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
 sf::Image icon;
 sf::Music music;
+sf::Music collision_sound;
+sf::Music jump_sound;
 sf::Texture background_texture;
 sf::Sprite background_sprite;
 sf::Texture bike_texture;
@@ -182,6 +184,8 @@ static void input()
             if (!jumping)
             {
                 time_of_click = 0;
+                jump_sound.play();
+                collision_sound.play();
             }
             jumping = true;
         }
@@ -194,7 +198,9 @@ static void loadResources()
 	icon.loadFromFile("resources/sam_icon_2.png");
     background_texture.loadFromFile("resources/background.jpg");
     bike_texture.loadFromFile("resources/bike_sheet_sam.png");
-	music.openFromFile("resources/cyber_sam.wav");
+    music.openFromFile("resources/cyber_sam.wav");
+    jump_sound.openFromFile("resources/cartoon_jump.wav");
+    collision_sound.openFromFile("resources/collision.wav");
     street_texture = new sf::Texture();
     street_texture->loadFromFile("resources/street_sheet.png");
     font.loadFromFile("resources/sansation.ttf");
@@ -252,5 +258,8 @@ int main(int, char const**)
         window.display();
         
     };
+    music.~Music();
+    jump_sound.~Music();
+    collision_sound.~Music();
     return EXIT_SUCCESS;
 };

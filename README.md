@@ -44,3 +44,5 @@ Art By: Brandon
 Background Found here: https://wallpaperaccess.com/pixel-city
 
 Music By: https://soundcloud.com/victor-bui-trong 
+Collision sound: https://freesound.org/people/JustInvoke/sounds/446125/ 
+Jump sound: https://freesound.org/people/elektroproleter/sounds/157568/
