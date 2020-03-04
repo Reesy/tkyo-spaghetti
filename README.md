@@ -41,4 +41,6 @@ SFML can be found http://www.sfml-dev.org
 
 Art By: Brandon
 
+Background Found here: https://wallpaperaccess.com/pixel-city
+
 Music By: https://soundcloud.com/victor-bui-trong 

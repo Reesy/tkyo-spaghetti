@@ -13,6 +13,8 @@
 sf::RenderWindow window(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
 sf::Image icon;
 sf::Music music;
+sf::Texture background_texture;
+sf::Sprite background_sprite;
 sf::Texture bike_texture;
 sf::Texture* street_texture;
 sf::Event event;
@@ -134,7 +136,8 @@ static void update(float elapsed)
 
 
 static void render()
-{    
+{
+    window.draw(background_sprite);
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i].render(window);
@@ -189,12 +192,12 @@ static void input()
 static void loadResources()
 {
 	icon.loadFromFile("resources/sam_icon_2.png");
+    background_texture.loadFromFile("resources/background.jpg");
     bike_texture.loadFromFile("resources/bike_sheet_sam.png");
 	music.openFromFile("resources/cyber_sam.wav");
     street_texture = new sf::Texture();
     street_texture->loadFromFile("resources/street_sheet.png");
     font.loadFromFile("resources/sansation.ttf");
- 
 };
 
 static void init()
@@ -209,8 +212,9 @@ static void init()
     text.setStyle(sf::Text::Bold);
     text.setFillColor(sf::Color::White);
     text.move(1040, 0);
-//   music.play();
-//   music.setLoop(true);
+    background_sprite.setTexture(background_texture);
+    music.play();
+    music.setLoop(true);
 };
 
 
