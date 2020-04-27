@@ -4,13 +4,13 @@
 #pragma once
 
 class Player: public IMovable,
-              public IAnimatable,
-              public ICollidable
+              public IAnimatable
 {
     private:
         int x,y;
         sf::Texture texture;
         sf::Sprite sprite;
+
         float animationFrameTimer;
         
     public: 

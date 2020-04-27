@@ -32,7 +32,7 @@ include_directories(
 )
 
 file(GLOB_RECURSE TkyoSpaghetti_FILES
-	"${PROJECT_SOURCE_DIR}/include/*.h"
+	"${PROJECT_SOURCE_DIR}/include/*.hpp"
 	"${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 file(COPY resources DESTINATION ./)
@@ -42,6 +42,4 @@ add_executable(TkyoSpaghetti
 )
 
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -lpthread -ldl")
-
-
 target_link_libraries(TkyoSpaghetti sfml-system sfml-window sfml-graphics sfml-audio)

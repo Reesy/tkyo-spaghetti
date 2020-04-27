@@ -9,3 +9,8 @@ external_resources/**/*
 external_resources/SFML.diff
 external_resources/SFML
 install_manifest.txt
+.vs
+Debug
+*.vcxproj.*
+*.vcxproj
+*.sln
