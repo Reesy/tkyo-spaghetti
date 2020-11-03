@@ -10,7 +10,7 @@ How to clone:
 git clone --recurse-submodules https://github.com/Reesy/TkyoSpaghetti
 ```
 
-This project imports it's dependency on SFML via a git submodule in the external_resources folder.
+This project imports it's dependency on SDL via a git submodule in the external_resources folder.
 
 How to build:
 
@@ -39,7 +39,7 @@ This project comes with a .vscode folder prebundled to make debugging easier, fo
 
 \*CodeLLDB is only recommended for debugging on modern OSX versions
 
-SFML can be found http://www.sfml-dev.org
+SDL2 can be found https://www.libsdl.org/
 
 Art By: Brandon
 

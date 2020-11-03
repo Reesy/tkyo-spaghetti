@@ -1,8 +1,6 @@
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
 #include <IVisible.hpp>
 #include <IAnimatable.hpp>
 #include <IMovable.hpp>

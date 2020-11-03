@@ -6,8 +6,8 @@ cmake_install.cmake
 CMakeCache.txt
 TkyoSpaghetti
 external_resources/**/*
-external_resources/SFML.diff
-external_resources/SFML
+external_resources/SDL-mirror.diff
+external_resources/SDL-mirror
 install_manifest.txt
 .vs
 Debug
