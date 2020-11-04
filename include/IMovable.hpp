@@ -1,7 +1,7 @@
 
-#pragma once
-class IMovable
-{
-    public:
-        virtual void move(int x, int y){};
-};
+// #pragma once
+// class IMovable
+// {
+//     public:
+//         virtual void move(int x, int y){};
+// };

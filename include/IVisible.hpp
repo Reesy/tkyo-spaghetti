@@ -1,11 +1,11 @@
 
-#pragma once
-class IVisible
-{   
+// #pragma once
+// class IVisible
+// {   
 
-    private: 
-        sf::Texture texture;
-        sf::Sprite sprite;
-    public: 
-        virtual void render(){};
-};
+//     private: 
+//         SDL_Surface texture;
+//         SDL_Surface sprite;
+//     public: 
+//         virtual void render(){};
+// };

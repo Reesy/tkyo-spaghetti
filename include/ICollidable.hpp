@@ -1,9 +1,9 @@
 
-#pragma once
-class ICollidable
-{
-    sf::RectangleShape bounds;
-    public:
-        virtual std::vector<sf::RectangleShape> getBounds() = 0;
-        virtual void renderCollider(sf::RenderWindow &window){};
-};
+// #pragma once
+// class ICollidable
+// {
+//     SDL_Rect bounds;
+//     public:
+//         virtual std::vector<SDL_Rect> getBounds() = 0;
+//         virtual void renderCollider(SDL_Window &window){};
+// };
