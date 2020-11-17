@@ -23,6 +23,12 @@ cmake .
 make
 ```
 
+To build for browser with Emscripten (requires emscripten installed and on the path): 
+
+```
+emcmake cmake . -B build 
+```
+
 To build with debug symbols (on OSX):
 ```
 cmake -DCMAKE_BUILD_TYPE=Debug .
@@ -36,6 +42,13 @@ This project comes with a .vscode folder prebundled to make debugging easier, fo
     <dd style='color:green'>C/C++ Plugin </dd>
     <dd style='color:green'>CodeLLDB* </dd>
 <dl>
+
+Emscripten command (manually):
+    ```emcc src/main.cpp -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -O3 -o index.js```
+
+Running in small httpserver with Python 2: 
+    ```python -m SimpleHTTPServer 8080``` 
+
 
 \*CodeLLDB is only recommended for debugging on modern OSX versions
 
