@@ -1,13 +1,20 @@
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include <SDL.h>
-#include <SDL_image.h>
 #include <IVisible.hpp>
 #include <IAnimatable.hpp>
 #include <IMovable.hpp>
 #include <IPlayer.hpp>
 #include <IPlatform.hpp>
+
+#if __EMSCRIPTEN__
+	#include <emscripten/emscripten.h>
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#else
+	#include <SDL.h>
+	#include <SDL_image.h>
+#endif
 
 //game objects
 //(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
@@ -18,7 +25,11 @@
 
 // sf::Font font;
 // sf::Text text("Score: ", font);
-unsigned int game_time;
+
+uint32_t  startTime = 0;
+uint32_t  current_time = 0;
+double elapsed_time = 0;
+double accumulator = 0;
 float time_of_click;
 float game_score;
 bool collided;
@@ -155,7 +166,9 @@ void render()
     
     SDL_SetRenderDrawColor(renderer, 91, 10, 145, 255);
     SDL_RenderClear(renderer);
+    //sam->render(renderer);
     SDL_RenderCopy(renderer, background_texture, source_rect, target_rect);
+    sam->render(renderer);
     SDL_RenderPresent(renderer);
 //     window.draw(background_sprite);
 //     for (int i = 0; i < platforms.size(); i++)
@@ -221,6 +234,7 @@ void loadResources()
     //font.loadFromFile("resources/sansation.ttf");
 };
 
+
 void init()
 {
     //window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -246,18 +260,17 @@ void init()
 
 void gameLoop()
 {   
+    startTime = SDL_GetTicks();
+
     while (SDL_PollEvent(event))
     {
         input();
     }
 
-    render();
-
-    // window.clear(background_color);
-    // sam->animate(elapsed.asSeconds());
+    sam->animate(elapsed_time);
 
     // update(elapsed.asSeconds());
-    // render();
+    render();
 
     // if (debug_render)
     // {
@@ -265,6 +278,9 @@ void gameLoop()
     // }
     
     // window.display();
+    current_time = SDL_GetTicks();
+    elapsed_time = (current_time - startTime) / 1000.0;
+   
 }
 
 int main(int, char const**)

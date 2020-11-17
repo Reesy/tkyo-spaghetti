@@ -3,12 +3,8 @@
 Player::Player(SDL_Texture* _texture)
 {
     this->texture = _texture;
-    this->x = 0;
-    this->y = 0;
-    this->spritePosition.x=0;
-    this->spritePosition.y=0;
-    this->spritePosition.w=200;
-    this->spritePosition.h=200;
+    this->textureRect = {0, 0, 200, 200};
+    this->positionRect = {0, 0, 200, 200};
     // this->bounds = sf::RectangleShape(sf::Vector2f(100, 45));
     // this->bounds.setFillColor(sf::Color::Transparent);
     // this->bounds.setOutlineThickness(1);
@@ -18,116 +14,116 @@ Player::Player(SDL_Texture* _texture)
 
 void Player::move(int _x, int _y)
 {
-    x += _x;
-    y += _y;
+    this->positionRect.x += _x;
+    this->positionRect.y += _y;
     // this->sprite.move(_x, _y);
     // this->bounds.move(_x, _y);
 };
 
-void Player::animate(float _elapsedTime)
-{
-    printf("Unimplemented method");
-    // this->sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
-    // this->animationFrameTimer += _elapsedTime * 7;
-    
-    // if (this->animationFrameTimer < 0)
-    // {
-    //     this->animationFrameTimer = 0;
-    // }
-    // if (this->animationFrameTimer > 1 && this->animationFrameTimer < 2)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
-    // } 
-    // else if (this->animationFrameTimer > 2 && this->animationFrameTimer < 3)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(400, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 3 && this->animationFrameTimer < 4)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(600, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 4 && this->animationFrameTimer < 5)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(800, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 5 && this->animationFrameTimer < 6)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(1000, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 6 && this->animationFrameTimer < 7)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(1200, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 7 && this->animationFrameTimer < 8)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(1400, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 8 && this->animationFrameTimer < 9)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(1600, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 9 && this->animationFrameTimer < 10)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(1800, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 10 && this->animationFrameTimer < 11)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(2000, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 11 && this->animationFrameTimer < 12)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(2200, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 12 && this->animationFrameTimer < 13)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(2400, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 13 && this->animationFrameTimer < 14)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(2600, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 14 && this->animationFrameTimer < 15)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(2800, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 15 && this->animationFrameTimer < 16)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(3000, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 16 && this->animationFrameTimer < 17)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(3200, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 17 && this->animationFrameTimer < 18)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(3400, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 18 && this->animationFrameTimer < 19)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(3600, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 19 && this->animationFrameTimer < 20)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(3800, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 20 && this->animationFrameTimer < 21)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(4000, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 21 && this->animationFrameTimer < 22)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(4200, 0, 200, 200));
-    // }
-    // else if (this->animationFrameTimer > 22)
-    // {
-    //     this->sprite.setTextureRect(sf::IntRect(4600, 0, 200, 200));
-    //     this->animationFrameTimer = 0; //resets the timer
-    // }
+void Player::animate(double _elapsedTime)
+{ 
+    this->elapsedTime += (_elapsedTime * 60 );
+    this->frame = (int) this->elapsedTime;
+    if (this->frame == 0)
+    {
+        this->textureRect = {0, 0, 200, 200};
+    }
+    if (this->frame == 1)
+    {
+        this->textureRect = {200, 0, 200, 200};
+    } 
+    else if (this->frame == 2)
+    {
+        this->textureRect = {400, 0, 200, 200};
+    }
+    else if (this->frame == 3)
+    {
+        this->textureRect = {600, 0, 200, 200};
+    }
+    else if (this->frame == 4)
+    {
+        this->textureRect = {800, 0, 200, 200};
+    }
+    else if (this->frame == 5)
+    {
+        this->textureRect = {1000, 0, 200, 200};
+    }
+    else if (this->frame == 6)
+    {
+        this->textureRect = {1200, 0, 200, 200};
+    }
+    else if (this->frame == 7)
+    {
+        this->textureRect = {1400, 0, 200, 200};
+    }
+    else if (this->frame == 8)
+    {
+        this->textureRect = {1600, 0, 200, 200};
+    }
+    else if (this->frame == 9)
+    {
+        this->textureRect = {1800, 0, 200, 200};
+    }
+    else if (this->frame == 10)
+    {
+        this->textureRect = {2000, 0, 200, 200};
+    }
+    else if (this->frame == 11)
+    {
+        this->textureRect = {2200, 0, 200, 200};
+    }
+    else if (this->frame == 12)
+    {
+        this->textureRect = {2400, 0, 200, 200};
+    }
+    else if (this->frame == 13)
+    {
+        this->textureRect = {2600, 0, 200, 200};
+    }
+    else if (this->frame == 14)
+    {
+        this->textureRect = {2800, 0, 200, 200};
+    }
+    else if (this->frame == 15)
+    {
+        this->textureRect = {3000, 0, 200, 200};
+    }
+    else if (this->frame == 16)
+    {
+        this->textureRect = {3200, 0, 200, 200};
+    }
+    else if (this->frame == 17)
+    {
+        this->textureRect = {3400, 0, 200, 200};
+    }
+    else if (this->frame == 18)
+    {
+        this->textureRect = {3600, 0, 200, 200};
+    }
+    else if (this->frame == 19)
+    {
+        this->textureRect = {3800, 0, 200, 200};
+    }
+    else if (this->frame == 20)
+    {
+        this->textureRect = {4000, 0, 200, 200};
+    }
+    else if (this->frame == 21)
+    {
+        this->textureRect = {4200, 0, 200, 200};
+    }
+    else if (this->frame == 22)
+    {
+        this->textureRect = {4600, 0, 200, 200};
+        this->elapsedTime = 0;
+        return;
+    }
+    return;
 };
 
 void Player::render(SDL_Renderer *_renderer)
 {
-    SDL_RenderCopy(_renderer, this->texture, NULL, &this->spritePosition);
+    SDL_RenderCopy(_renderer, this->texture, &this->textureRect, &this->positionRect);
 };
 
 void Player::renderCollider(SDL_Renderer *_renderer)
@@ -140,10 +136,10 @@ void Player::renderCollider(SDL_Renderer *_renderer)
 
 int Player::getX()
 {
-    return x;
+    return this->positionRect.x;
 }
 
 int Player::getY()
 {
-    return y;
+    return this->positionRect.y;
 }

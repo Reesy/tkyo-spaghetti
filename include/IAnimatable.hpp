@@ -9,6 +9,6 @@ class IAnimatable: public IVisible
         SDL_Texture* texture;
         SDL_Texture* sprite;
     public: 
-        virtual void animate(float _elapsedTime) = 0;
+        virtual void animate(double _elapsedTime) = 0;
         virtual void render(SDL_Renderer *_renderer) = 0;
 };
