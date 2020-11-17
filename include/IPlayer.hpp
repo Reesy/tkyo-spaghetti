@@ -1,6 +1,9 @@
+#include <SDL.h>
+#include <SDL_image.h>
 #include <IMovable.hpp>
 #include <IAnimatable.hpp>
 #include <ICollidable.hpp>
+#include <iostream>
 #pragma once
 
 class Player: public IMovable,
@@ -8,18 +11,18 @@ class Player: public IMovable,
 {
     private:
         int x,y;
-        sf::Texture texture;
-        sf::Sprite sprite;
+        SDL_Texture *texture;
+        SDL_Rect spritePosition;
 
         float animationFrameTimer;
         
     public: 
-        sf::RectangleShape bounds;
-        Player(sf::Texture _texture);
-        void move(int x, int y);
-        void animate(float elapsedTime);
-        void render(sf::RenderWindow &window);
-        void renderCollider(sf::RenderWindow &window);
+        SDL_Rect bounds;
+        Player(SDL_Texture* _texture);
+        void move(int _x, int _y);
+        void animate(float _elapsedTime);
+        void render(SDL_Renderer *_renderer);
+        void renderCollider(SDL_Renderer *_renderer);
         int getX();
         int getY(); 
 };

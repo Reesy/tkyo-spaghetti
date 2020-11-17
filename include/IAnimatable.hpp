@@ -1,13 +1,14 @@
-#include <SFML/Graphics.hpp>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <IVisible.hpp>
 
 #pragma once
 class IAnimatable: public IVisible
 {   
     private:
-        sf::Texture texture;
-        sf::Sprite sprite;
+        SDL_Texture* texture;
+        SDL_Texture* sprite;
     public: 
-        virtual void animate(int speed, int tileOffset){};
-        virtual void render(){};
+        virtual void animate(float _elapsedTime) = 0;
+        virtual void render(SDL_Renderer *_renderer) = 0;
 };

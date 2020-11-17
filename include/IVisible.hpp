@@ -1,11 +1,11 @@
-
+#include <SDL.h>
+#include <SDL_image.h>
 #pragma once
 class IVisible
-{   
-
+{
     private: 
-        sf::Texture texture;
-        sf::Sprite sprite;
+        SDL_Texture *texture;
+        SDL_Texture *sprite;
     public: 
-        virtual void render(){};
+        virtual void render(SDL_Renderer *_renderer) = 0;
 };

@@ -4,11 +4,7 @@ set(EXECUTABLE_NAME TkyoSpaghetti)
 
 project(TkyoSpaghetti LANGUAGES CXX) #set the project name and to use C++
 
-set(CMAKE_BUILD_TYPE Release)
-
-set(BUILD_SHARED_LIBS OFF)
-
-set(SFML_STATIC_LIBRARIES ON)
+set(CMAKE_BUILD_TYPE Debug)
 
 set(MY_SOURCES 
         src/main.cpp
@@ -24,22 +20,42 @@ set(MY_SOURCES
 
 set(MY_RESOURCES resources)
 
-if(WIN32) # This check detects windows even 64 bit, CMAKE just has a confusing name. 
-    add_executable(${EXECUTABLE_NAME} WIN32 ${MY_SOURCES})
-    file(COPY ${PROJECT_SOURCE_DIR}/external_resources/SFML/extlibs/bin/x86/openal32.dll DESTINATION ${CMAKE_BINARY_DIR})
-    file(COPY ${MY_RESOURCES} DESTINATION ${CMAKE_BINARY_DIR})
-elseif(APPLE)
-    add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${MY_SOURCES})
-    file(COPY ${MY_RESOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${EXECUTABLE_NAME}.app/Contents/MacOS)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    find_package(SDL2 REQUIRED)
+
+    find_package(SDL2_image REQUIRED)
+
+    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+
+    include_directories(${SDL2_INCLUDE_DIR})
 endif()
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/external_resources/SFML)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/external_resources/SFML/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_executable(${EXECUTABLE_NAME} ${MY_SOURCES})
 
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE sfml-graphics sfml-audio)
+file(COPY ${MY_RESOURCES} DESTINATION ${CMAKE_BINARY_DIR})
 
+if (MSVC)
+	if (CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+		string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	else()
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+    endif()
+elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    set(USE_FLAGS "-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"png\"]' -s USE_FREETYPE=1 --preload-file resources/example_texture.png")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
+    file(COPY "index.html" DESTINATION ${CMAKE_BINARY_DIR})
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -O2")
+endif()
 
-
+if( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    target_link_libraries(${EXECUTABLE_NAME})
+else()
+    target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
+endif()

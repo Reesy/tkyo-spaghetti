@@ -1,3 +1,6 @@
+#include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
 #include <IMovable.hpp>
 #include <ICollidable.hpp>
 #pragma once
@@ -7,18 +10,18 @@ class Platform: public IMovable,
 {
     private:
         int x, y, midSectionCount;
-        sf::Texture* texture;
-        std::vector<sf::Sprite> sprites;
-        std::vector<sf::RectangleShape> bounds;
+        SDL_Texture* texture;
+        std::vector<SDL_Texture> *sprites;
+        std::vector<SDL_Rect> *bounds;
         float animationFrameTimer;
         void createPlatform();
     public: 
-        Platform(sf::Texture* _texture, int _length, int x, int y);
+        Platform(SDL_Texture* _texture, int _length, int x, int y);
         int getX();
         int getY();
         int getMidSectionCount();
         void move(int x, int y);
-        void render(sf::RenderWindow &window);
-        void renderCollider(sf::RenderWindow &window);
-        std::vector<sf::RectangleShape> getBounds();
+        void render(SDL_Window &window);
+        void renderCollider(SDL_Window &window);
+        std::vector<SDL_Rect> getBounds();
 };

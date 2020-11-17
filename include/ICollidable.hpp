@@ -1,10 +1,11 @@
-#include <SFML/Graphics.hpp>
-
+#include <SDL.h>
+#include <SDL_image.h>
+#include <vector>
 #pragma once
 class ICollidable
 {
-    sf::RectangleShape bounds;
+    SDL_Rect bounds;
     public:
-        virtual std::vector<sf::RectangleShape> getBounds() = 0;
-        virtual void renderCollider(sf::RenderWindow &window){};
+        virtual std::vector<SDL_Rect> getBounds() = 0;
+        virtual void renderCollider(SDL_Window &window) = 0;
 };
