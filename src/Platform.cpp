@@ -1,11 +1,12 @@
 #include <IPlatform.hpp>
 
+
 Platform::Platform(SDL_Texture* _texture, int _midSectionCount, int _x, int _y)
 {
     texture = _texture;
+    midSectionCount = _midSectionCount;
     x = _x;
     y = _y;
-    midSectionCount = _midSectionCount;
     createPlatform();
 };
 
@@ -27,17 +28,19 @@ void Platform::move(int _x, int _y)
 
 };
 
-void Platform::render(SDL_Window &window)
+void Platform::render(SDL_Renderer *_renderer)
 {
-
-    // for (int i = 0; i < sprites.size(); i++)
-    // {
-    //     window.draw(sprites[i]);
-    // }
+    for (int i = 0; i < this->platformParts.size(); i++)
+    {
+        SDL_RenderCopy(_renderer,
+                       this->texture, 
+                       &platformParts[i].textureRect, 
+                       &platformParts[i].positionRect);
+    }
   
 };
 
-void Platform::renderCollider(SDL_Window &window)
+void Platform::renderCollider(SDL_Renderer *_renderer)
 {
     // for (int i = 0; i < bounds.size(); i++)
     // {
@@ -47,16 +50,17 @@ void Platform::renderCollider(SDL_Window &window)
 
 void Platform::createPlatform()
 {
-    
-    // SDL_Texture street_sprite_beginning = NULL;
-    // SDL_Texture street_sprite_end;
+    std::cout << "create platform called" << std::endl;
+    PlatformRectangles street_sprite_beginning;
+    PlatformRectangles street_sprite_end;
 
-    // street_sprite_beginning.setTexture(*texture);
+    street_sprite_beginning.textureRect = {0, 0, 200, 200};
+    street_sprite_beginning.positionRect = {x, y, 300, 300};
+    platformParts.push_back(street_sprite_beginning);
+
     // street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
     // street_sprite_beginning.setScale(3, 3);
     // street_sprite_beginning.move(x, y); 
-    // sprites.push_back(street_sprite_beginning);
-
 
     // sf::RectangleShape frontBound = sf::RectangleShape(sf::Vector2f(300, 20));
     // frontBound.setFillColor(sf::Color::Transparent);

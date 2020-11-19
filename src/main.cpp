@@ -58,7 +58,7 @@ SDL_Texture* street_texture = NULL;
 Player* sam;
 SDL_Rect* source_rect = NULL;
 SDL_Rect* target_rect = NULL;
-//std::vector <Platform*> platforms;
+std::vector <Platform> platforms;
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 {
@@ -166,17 +166,17 @@ void render()
     
     SDL_SetRenderDrawColor(renderer, 91, 10, 145, 255);
     SDL_RenderClear(renderer);
-    //sam->render(renderer);
-    SDL_RenderCopy(renderer, background_texture, source_rect, target_rect);
+    SDL_RenderCopy(renderer, background_texture, source_rect, target_rect); 
+
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i].render(renderer);
+    }
+//    // window.draw(text);
+    
+    
     sam->render(renderer);
     SDL_RenderPresent(renderer);
-//     window.draw(background_sprite);
-//     for (int i = 0; i < platforms.size(); i++)
-//     {
-//         platforms[i].render(window);
-//     }
-//    // window.draw(text);
-//     sam->render(window);
 };
 
 void debugRender()
@@ -195,10 +195,6 @@ void input()
     {
         quit = true;
     }      
-    // if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) 
-    // {
-    //     window.close();
-    // }
 
     // if (event.type == sf::Event::KeyPressed && event.key.code ==sf::Keyboard::F1)
     // {
@@ -243,7 +239,7 @@ void init()
     sam = new Player(bike_texture);
     Platform platform = Platform(street_texture, 10, -50, 480);
     
-    //platforms.push_back(platform);
+    platforms.push_back(platform);
     
     sam->move(110, 450);  
     
@@ -271,7 +267,7 @@ void gameLoop()
 
     sam->animate(frameTime);
 
-    // update(elapsed.asSeconds());
+    //update(elapsed.asSeconds());
     render();
 
     // if (debug_render)
@@ -318,26 +314,6 @@ int main(int, char const**)
 	IMG_Quit();
 	SDL_Quit();
 
-
-
-
-    // sf::Clock clock;
-    // game_time = clock.restart();
-    
-    // // Start the game loop
-    // while (window.isOpen())
-    // {
-        
-    //     sf::Time elapsed = clock.restart();
-        
-    //     while (window.pollEvent(event))
-    //     {
-    //         input();
-    //     }
-        
-   
-        
-    // };
     // music.~Music();
     // jump_sound.~Music();
     // collision_sound.~Music();
