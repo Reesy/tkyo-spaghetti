@@ -15,7 +15,7 @@ class Player: public IMovable,
         SDL_Rect textureRect;
         SDL_Rect positionRect;
         int frame = 0;
-        double elapsedTime = 0;
+        double animationClock = 0;
         
     public: 
         SDL_Rect bounds;

@@ -22,8 +22,16 @@ void Player::move(int _x, int _y)
 
 void Player::animate(double _elapsedTime)
 { 
-    this->elapsedTime += (_elapsedTime * 60 );
-    this->frame = (int) this->elapsedTime;
+    
+    this->animationClock += _elapsedTime; //This works like a stopwatch, the time since the last frame is accumulated (in MS)
+   
+    //Every 100ms progress the animation frame. Then reset the stopwatch (animationClock)
+    if ((this->animationClock) > 100)
+    {
+        this->frame++;
+        this->animationClock = 0.0;
+    }
+
     if (this->frame == 0)
     {
         this->textureRect = {0, 0, 200, 200};
@@ -112,10 +120,10 @@ void Player::animate(double _elapsedTime)
     {
         this->textureRect = {4200, 0, 200, 200};
     }
-    else if (this->frame == 22)
+    else if (this->frame >= 22)
     {
         this->textureRect = {4600, 0, 200, 200};
-        this->elapsedTime = 0;
+        this->frame = 0;
         return;
     }
     return;

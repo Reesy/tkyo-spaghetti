@@ -25,9 +25,6 @@
 
 // sf::Font font;
 // sf::Text text("Score: ", font);
-
-uint32_t  startTime = 0;
-uint32_t  current_time = 0;
 double elapsed_time = 0;
 double accumulator = 0;
 float time_of_click;
@@ -46,6 +43,10 @@ const int player_jump_height = -35;
 const int player_jump_speed = 20;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
+
+double t = 0.0;
+double currentTime = SDL_GetTicks();
+
 
 SDL_Event* event = NULL;
 SDL_Window* window = NULL;
@@ -134,29 +135,28 @@ void update(float elapsed)
     //     platforms[i].move(platform_speed, 0);
     // }
 
-    collided = false;
-    checkCollision();
-    float delta = elapsed * 60;
+    // collided = false;
+    // checkCollision();
 
-    if (jumping)
-    {
-        time_of_click += delta;
-        if (time_of_click > 15)
-        {
-            jumping = false;
-        }
-    }
+    // if (jumping)
+    // {
+    //     time_of_click += delta;
+    //     if (time_of_click > 15)
+    //     {
+    //         jumping = false;
+    //     }
+    // }
     
-    if (jumping)
-    {
-        sam->move(0, player_jump_height);
-    } 
-    if (!collided)
-    {
-        sam->move(0, player_jump_speed);
-    }
+    // if (jumping)
+    // {
+    //     sam->move(0, player_jump_height);
+    // } 
+    // if (!collided)
+    // {
+    //     sam->move(0, player_jump_speed);
+    // }
 
-    destroyPlatforms();
+    // destroyPlatforms();
 };
 
 
@@ -260,14 +260,16 @@ void init()
 
 void gameLoop()
 {   
-    startTime = SDL_GetTicks();
+  	double newTime = SDL_GetTicks();
+	double frameTime = newTime - currentTime;
+	currentTime = newTime;
 
     while (SDL_PollEvent(event))
     {
         input();
     }
 
-    sam->animate(elapsed_time);
+    sam->animate(frameTime);
 
     // update(elapsed.asSeconds());
     render();
@@ -278,8 +280,7 @@ void gameLoop()
     // }
     
     // window.display();
-    current_time = SDL_GetTicks();
-    elapsed_time = (current_time - startTime) / 1000.0;
+    t += frameTime;
    
 }
 
