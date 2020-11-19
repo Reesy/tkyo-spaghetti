@@ -3,14 +3,8 @@
 #include <iostream>
 #include <IMovable.hpp>
 #include <ICollidable.hpp>
+#include <IPlatformRectangles.hpp>
 #pragma once
-
-struct PlatformRectangles
-{
-    SDL_Rect textureRect;    //This will represent which part of the platform texture to render
-    SDL_Rect positionRect;   //This will represent the position of the platform
-    SDL_Rect collidingRect;  //This will represent the colliding bounds of the platform
-};
 
 
 class Platform: public IMovable,
@@ -31,5 +25,5 @@ class Platform: public IMovable,
         void move(int x, int y);
         void render(SDL_Renderer *_renderer);
         void renderCollider(SDL_Renderer *_renderer);
-        std::vector<SDL_Rect> getBounds();
+        std::vector<PlatformRectangles> getBounds();
 };

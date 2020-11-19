@@ -36,7 +36,7 @@ bool quit = false;
 
 //Game consts
 const int platform_gap = 650;  // This controls the distance between spawned platforms
-const int platform_midsection_upper_bound = 3; // This is the upper bound count of how many midsections a platform may have
+const int platform_midsection_upper_bound = 10; // This is the upper bound count of how many midsections a platform may have
 const int platform_height_range = 200;
 const int platform_speed = -20;
 const int player_jump_height = -35; 
@@ -70,18 +70,64 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 	return texture;
 }
 
+bool isColliding( SDL_Rect a, SDL_Rect b )
+{
+    //The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    //Calculate the sides of rect A
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    //Calculate the sides of rect B
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;
+
+    //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+}
+
 void checkCollision()
 {   
-    // for (int platformCount = 0; platformCount < platforms.size(); platformCount++)
-    // {
-    //     for (int colliderCount = 0; colliderCount < platforms[platformCount].getBounds().size(); colliderCount++)
-    //     {
-    //         if (sam->bounds.getGlobalBounds().intersects(platforms[platformCount].getBounds()[colliderCount].getGlobalBounds()))
-    //         {
-    //             collided = true;
-    //         }
-    //     }
-    // }
+    for (int platformCount = 0; platformCount < platforms.size(); platformCount++)
+    {
+        for (int colliderCount = 0; colliderCount < platforms[platformCount].getBounds().size(); colliderCount++)
+        {   
+            if ( isColliding(sam->collidingRect, 
+                            platforms[platformCount].getBounds()[colliderCount].collidingRect))
+            {
+                collided = true;
+            }
+        }
+    }
 };
 
 int round(int n) 
@@ -114,10 +160,10 @@ Platform generateNextPlatform(Platform previousPlatform)
 
 void destroyPlatforms()
 {
-    // if (platforms[0].getX() < -2000)
-    // {
-    //     platforms.erase(platforms.begin());
-    // }
+    if (platforms[0].getX() < -2000)
+    {
+        platforms.erase(platforms.begin());
+    }
 }
 
 void update(float elapsed)
@@ -125,38 +171,38 @@ void update(float elapsed)
    // game_score += (game_time.asSeconds() + elapsed);
     //std::string score = "Score: " + std::to_string(game_score);
     ///text.setString(score);
-    // while (platforms.size() < 7)
-    // {
-    //     platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
-    // }
+    while (platforms.size() < 7)
+    {
+        platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
+    }
 
-    // for (int i = 0; i < platforms.size(); i++)
-    // {
-    //     platforms[i].move(platform_speed, 0);
-    // }
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i].move(platform_speed, 0);
+    }
 
-    // collided = false;
-    // checkCollision();
+    collided = false;
+    checkCollision();
 
-    // if (jumping)
-    // {
-    //     time_of_click += delta;
-    //     if (time_of_click > 15)
-    //     {
-    //         jumping = false;
-    //     }
-    // }
+    if (jumping)
+    {
+        time_of_click += elapsed; //jumping for 200 ms
+        if (time_of_click > 200)
+        {
+            jumping = false;
+        }
+    }
     
-    // if (jumping)
-    // {
-    //     sam->move(0, player_jump_height);
-    // } 
-    // if (!collided)
-    // {
-    //     sam->move(0, player_jump_speed);
-    // }
+    if (jumping)
+    {
+        sam->move(0, player_jump_height);
+    } 
+    if (!collided)
+    {
+        sam->move(0, player_jump_speed);
+    }
 
-    // destroyPlatforms();
+    destroyPlatforms();
 };
 
 void debugRender()
@@ -205,16 +251,20 @@ void input()
         switch (event->key.keysym.sym)
 		{   
             case SDLK_F1:
-               // std::cout << "Debug render start: " << debug_render << std::endl;
                 debug_render =! debug_render;
-                //std::cout << "Debug render end: " << debug_render << std::endl;
                 break;
-			case SDLK_KP_A:
-				
-				break;
-			case SDLK_KP_D:
-				
-				break;
+			case SDLK_SPACE:
+                if (collided)
+                {
+                    if (!jumping)
+                    {
+                        time_of_click = 0;
+                        // jump_sound.play();
+                        // collision_sound.play();
+                    }
+                    jumping = true;
+                }
+                break;
 			default:
 				break;
 		}
@@ -284,9 +334,10 @@ void gameLoop()
         input();
     }
 
-    sam->animate(frameTime);
+    
 
-    //update(elapsed.asSeconds());
+    update(frameTime);
+    sam->animate(frameTime);
     render();
     
     // window.display();

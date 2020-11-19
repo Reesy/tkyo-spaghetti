@@ -12,19 +12,17 @@ Platform::Platform(SDL_Texture* _texture, int _midSectionCount, int _x, int _y)
 
 void Platform::move(int _x, int _y)
 {
+    x += _x; //maybe these can be removed
+    y += _y; //unsure just yet
+    
+    for(int i = 0; i < platformParts.size(); i++)
+    {
+        platformParts[i].positionRect.x += _x;
+        platformParts[i].positionRect.y += _y;
 
-    // for(int i = 0; i < sprites.size(); i++)
-    // {
-    //     sprites[i].move(_x, _y);
-    // }
-
-    // for(int i = 0; i < bounds.size(); i++)
-    // {
-    //     bounds[i].move(_x, _y);
-    // }
-
-    // x += _x;
-    // y += _y;
+        platformParts[i].collidingRect.x += _x;
+        platformParts[i].collidingRect.y += _y;
+    }
 
 };
 
@@ -50,7 +48,6 @@ void Platform::renderCollider(SDL_Renderer *_renderer)
 
 void Platform::createPlatform()
 {
-    std::cout << "create platform called" << std::endl;
     PlatformRectangles beginning_section;
 
     beginning_section.textureRect = {0, 0, 200, 200};
@@ -58,10 +55,12 @@ void Platform::createPlatform()
     beginning_section.collidingRect = {(x + 170), (y + 125), 300, 20};
     platformParts.push_back(beginning_section);
     
-    x = x + 300;
+   
     
     for (int i = 0; i < midSectionCount; i++ )
     {
+        x = x + 300;
+
         PlatformRectangles middleSection;
 
         middleSection.textureRect = {200, 0, 200, 200};
@@ -69,6 +68,7 @@ void Platform::createPlatform()
         middleSection.collidingRect =  {(x + 170), (y + 125), 300, 20};
         platformParts.push_back(middleSection);
     };
+    x = x + 300;
     
     PlatformRectangles end_section;
 
@@ -78,10 +78,9 @@ void Platform::createPlatform()
     platformParts.push_back(end_section);
 };
 
-std::vector<SDL_Rect> Platform::getBounds()
+std::vector<PlatformRectangles> Platform::getBounds()
 {   
-    std::vector <SDL_Rect> randomVector;
-    return randomVector;
+    return platformParts;
 };
 
 int Platform::getX()
