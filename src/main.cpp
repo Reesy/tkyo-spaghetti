@@ -159,7 +159,15 @@ void update(float elapsed)
     // destroyPlatforms();
 };
 
-
+void debugRender()
+{   
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i].renderCollider(renderer);
+    }
+   
+    // sam->renderCollider(window);
+};
 
 void render()
 {
@@ -168,6 +176,7 @@ void render()
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, background_texture, source_rect, target_rect); 
 
+ 
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i].render(renderer);
@@ -176,17 +185,12 @@ void render()
     
     
     sam->render(renderer);
-    SDL_RenderPresent(renderer);
-};
 
-void debugRender()
-{
-    // for (int i = 0; i < platforms.size(); i++)
-    // {
-    //     platforms[i].renderCollider(window);
-    // }
-   
-    // sam->renderCollider(window);
+    if (debug_render)
+    {
+        debugRender();
+    }
+    SDL_RenderPresent(renderer);
 };
 
 void input()
@@ -196,10 +200,25 @@ void input()
         quit = true;
     }      
 
-    // if (event.type == sf::Event::KeyPressed && event.key.code ==sf::Keyboard::F1)
-    // {
-    //     debug_render =! debug_render;
-    // }
+    if (event->type == SDL_KEYDOWN)
+    {
+        switch (event->key.keysym.sym)
+		{   
+            case SDLK_F1:
+               // std::cout << "Debug render start: " << debug_render << std::endl;
+                debug_render =! debug_render;
+                //std::cout << "Debug render end: " << debug_render << std::endl;
+                break;
+			case SDLK_KP_A:
+				
+				break;
+			case SDLK_KP_D:
+				
+				break;
+			default:
+				break;
+		}
+    }
 
     // if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
     // {
@@ -269,11 +288,6 @@ void gameLoop()
 
     //update(elapsed.asSeconds());
     render();
-
-    // if (debug_render)
-    // {
-    //     debugRender();
-    // }
     
     // window.display();
     t += frameTime;

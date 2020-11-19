@@ -36,76 +36,47 @@ void Platform::render(SDL_Renderer *_renderer)
                        this->texture, 
                        &platformParts[i].textureRect, 
                        &platformParts[i].positionRect);
-    }
-  
+    };
 };
 
 void Platform::renderCollider(SDL_Renderer *_renderer)
-{
-    // for (int i = 0; i < bounds.size(); i++)
-    // {
-    //     window.draw(bounds[i]);
-    // }
+{   
+    for (int i = 0; i < this->platformParts.size(); i++)
+    {
+        SDL_SetRenderDrawColor( _renderer, 0x00, 0xFF, 0x00, 0xFF );		
+        SDL_RenderDrawRect( _renderer, &platformParts[i].collidingRect);
+    };
 }
 
 void Platform::createPlatform()
 {
     std::cout << "create platform called" << std::endl;
-    PlatformRectangles street_sprite_beginning;
-    PlatformRectangles street_sprite_end;
+    PlatformRectangles beginning_section;
 
-    street_sprite_beginning.textureRect = {0, 0, 200, 200};
-    street_sprite_beginning.positionRect = {x, y, 300, 300};
-    platformParts.push_back(street_sprite_beginning);
-
-    // street_sprite_beginning.setTextureRect(sf::IntRect(0, 0, 200, 200));
-    // street_sprite_beginning.setScale(3, 3);
-    // street_sprite_beginning.move(x, y); 
-
-    // sf::RectangleShape frontBound = sf::RectangleShape(sf::Vector2f(300, 20));
-    // frontBound.setFillColor(sf::Color::Transparent);
-    // frontBound.setOutlineThickness(1);
-    // frontBound.setOutlineColor(sf::Color(255, 255, 255));
-    // frontBound.move((x + 170), (y + 125));
-    // bounds.push_back(frontBound);
-
-
+    beginning_section.textureRect = {0, 0, 200, 200};
+    beginning_section.positionRect = {x, y, 600, 600};
+    beginning_section.collidingRect = {(x + 170), (y + 125), 300, 20};
+    platformParts.push_back(beginning_section);
     
-    // for (int i = 0; i < midSectionCount; i++ )
-    // {
-    //     x = x + 300; //Platform segments should be placed further along the y segment
-    //     sf::Sprite middleSection;
-    //     middleSection.setTexture(*texture);
-    //     middleSection.setTextureRect(sf::IntRect(200, 0, 200, 200));
-    //     middleSection.setScale(3, 3);
-    //     middleSection.move(x, y);
-    //     sprites.push_back(middleSection);
-
-    //     sf::RectangleShape midBounds = sf::RectangleShape(sf::Vector2f(300, 20));
-    //     midBounds.setFillColor(sf::Color::Transparent);
-    //     midBounds.setOutlineThickness(1);
-    //     midBounds.setOutlineColor(sf::Color(255, 255, 255));
-    //     midBounds.move((x + 170), (y + 125));
-    //     bounds.push_back(midBounds);
-
-    // }
+    x = x + 300;
     
-    // x = x + 300;
-    // street_sprite_end.setTexture(*texture);
-    // street_sprite_end.setTextureRect(sf::IntRect(400, 0, 200, 200));
-    // street_sprite_end.setScale(3, 3);
-    // street_sprite_end.move(x, y);
-    // sprites.push_back(street_sprite_end);
+    for (int i = 0; i < midSectionCount; i++ )
+    {
+        PlatformRectangles middleSection;
 
-    // sf::RectangleShape endBounds = sf::RectangleShape(sf::Vector2f(300, 20));
-    // endBounds.setFillColor(sf::Color::Transparent);
-    // endBounds.setOutlineThickness(1);
-    // endBounds.setOutlineColor(sf::Color(255, 255, 255));
-    // endBounds.move((x + 170), (y + 125));
-    // bounds.push_back(endBounds);
+        middleSection.textureRect = {200, 0, 200, 200};
+        middleSection.positionRect = {x, y, 600, 600};
+        middleSection.collidingRect =  {(x + 170), (y + 125), 300, 20};
+        platformParts.push_back(middleSection);
+    };
+    
+    PlatformRectangles end_section;
 
-
-}
+    end_section.textureRect = {400, 0, 200, 200};
+    end_section.positionRect = {x, y, 600, 600};
+    end_section.collidingRect =  {(x + 170), (y + 125), 300, 20};
+    platformParts.push_back(end_section);
+};
 
 std::vector<SDL_Rect> Platform::getBounds()
 {   
