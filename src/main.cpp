@@ -166,7 +166,7 @@ void debugRender()
         platforms[i].renderCollider(renderer);
     }
    
-    // sam->renderCollider(window);
+    sam->renderCollider(renderer);
 };
 
 void render()

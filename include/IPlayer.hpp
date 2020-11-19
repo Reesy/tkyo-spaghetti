@@ -18,7 +18,7 @@ class Player: public IMovable,
         double animationClock = 0;
         
     public: 
-        SDL_Rect bounds;
+        SDL_Rect collidingRect;
         Player(SDL_Texture* _texture);
         void move(int _x, int _y);
         void animate(double _elapsedTime);

@@ -5,6 +5,7 @@ Player::Player(SDL_Texture* _texture)
     this->texture = _texture;
     this->textureRect = {0, 0, 200, 200};
     this->positionRect = {0, 0, 200, 200};
+    this->collidingRect = {55, 80, 100, 45};
     // this->bounds = sf::RectangleShape(sf::Vector2f(100, 45));
     // this->bounds.setFillColor(sf::Color::Transparent);
     // this->bounds.setOutlineThickness(1);
@@ -16,6 +17,8 @@ void Player::move(int _x, int _y)
 {
     this->positionRect.x += _x;
     this->positionRect.y += _y;
+    this->collidingRect.x += _x;
+    this->collidingRect.y += _y;
     // this->sprite.move(_x, _y);
     // this->bounds.move(_x, _y);
 };
@@ -136,10 +139,9 @@ void Player::render(SDL_Renderer *_renderer)
 
 void Player::renderCollider(SDL_Renderer *_renderer)
 {
-   // window.draw(this->bounds);
-//    SDL_Rect myRect;
-    printf("Unimplemented method");
-    return;;
+    SDL_SetRenderDrawColor( _renderer, 0x00, 0xFF, 0x00, 0xFF );		
+    SDL_RenderDrawRect( _renderer, &this->collidingRect);
+    return;
 }
 
 int Player::getX()
