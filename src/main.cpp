@@ -36,6 +36,7 @@ bool collided;
 bool jumping; 
 bool debug_render = false;
 bool quit = false;
+bool paused = false;
 
 //Game consts
 const int platform_gap = 650;  // This controls the distance between spawned platforms
@@ -273,6 +274,9 @@ void input()
                     jumping = true;
                 }
                 break;
+            case SDLK_p:
+                paused =! paused;
+                break;
 			default:
 				break;
 		}
@@ -358,7 +362,10 @@ void gameLoop()
     {
         input();
     }
-
+    if (paused) 
+    {
+        return;
+    }
     update(frameTime);
     sam->animate(frameTime);
     render();
@@ -412,10 +419,8 @@ int main(int, char const**)
 		}
 	#endif
     
-  //  SDL_DestroyTexture( image );
 	SDL_DestroyRenderer(renderer );
 	SDL_DestroyWindow( window );
-//	image = NULL;
 	renderer = NULL;
 	window = NULL;
 	IMG_Quit();
