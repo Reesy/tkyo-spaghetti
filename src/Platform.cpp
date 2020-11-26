@@ -48,7 +48,7 @@ void Platform::renderCollider(SDL_Renderer *_renderer)
 
 void Platform::createPlatform()
 {
-    PlatformRectangles beginning_section;
+    GameObject beginning_section;
 
     beginning_section.textureRect = {0, 0, 200, 200};
     beginning_section.positionRect = {x, y, 600, 600};
@@ -61,7 +61,7 @@ void Platform::createPlatform()
     {
         x = x + 300;
 
-        PlatformRectangles middleSection;
+        GameObject middleSection;
 
         middleSection.textureRect = {200, 0, 200, 200};
         middleSection.positionRect = {x, y, 600, 600};
@@ -70,7 +70,7 @@ void Platform::createPlatform()
     };
     x = x + 300;
     
-    PlatformRectangles end_section;
+    GameObject end_section;
 
     end_section.textureRect = {400, 0, 200, 200};
     end_section.positionRect = {x, y, 600, 600};
@@ -78,7 +78,7 @@ void Platform::createPlatform()
     platformParts.push_back(end_section);
 };
 
-std::vector<PlatformRectangles> Platform::getBounds()
+std::vector<GameObject> Platform::getBounds()
 {   
     return platformParts;
 };

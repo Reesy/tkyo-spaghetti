@@ -3,7 +3,7 @@
 #include <iostream>
 #include <IMovable.hpp>
 #include <ICollidable.hpp>
-#include <IPlatformRectangles.hpp>
+#include <IGameObject.hpp>
 #pragma once
 
 
@@ -13,7 +13,7 @@ class Platform: public IMovable,
     private:
         int x, y, midSectionCount;
         SDL_Texture* texture;
-        std::vector<PlatformRectangles> platformParts;
+        std::vector<GameObject> platformParts;
         std::vector<SDL_Rect> bounds;
         float animationFrameTimer;
         void createPlatform();
@@ -25,5 +25,5 @@ class Platform: public IMovable,
         void move(int x, int y);
         void render(SDL_Renderer *_renderer);
         void renderCollider(SDL_Renderer *_renderer);
-        std::vector<PlatformRectangles> getBounds();
+        std::vector<GameObject> getBounds();
 };

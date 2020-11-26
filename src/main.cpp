@@ -6,14 +6,17 @@
 #include <IMovable.hpp>
 #include <IPlayer.hpp>
 #include <IPlatform.hpp>
+#include <IText.hpp>
 
 #if __EMSCRIPTEN__
 	#include <emscripten/emscripten.h>
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_image.h>
+    #include <SDL2/SDL_ttf.h>
 #else
 	#include <SDL.h>
 	#include <SDL_image.h>
+    #include <SDL_ttf.h>
 #endif
 
 //game objects
@@ -23,8 +26,7 @@
 // sf::Music collision_sound;
 // sf::Music jump_sound;
 
-// sf::Font font;
-// sf::Text text("Score: ", font);
+
 double elapsed_time = 0;
 double accumulator = 0;
 float time_of_click;
@@ -59,6 +61,10 @@ Player* sam;
 SDL_Rect* source_rect = NULL;
 SDL_Rect* target_rect = NULL;
 std::vector <Platform> platforms;
+std::string fontLocation;
+SDL_Color textColor;
+TTF_Font* font;
+Text* scoreText;
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 {
@@ -67,6 +73,28 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 	{
         printf("Failed to load image\n", file.c_str());
 	}
+	return texture;
+}
+
+SDL_Texture* renderText(const std::string &message, SDL_Color color,  SDL_Renderer *renderer)
+{
+	//We need to first render to a surface as that's what TTF_RenderText returns, then
+	//load that surface into a texture
+	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+	if (surf == nullptr)
+    {
+        std::cout << "Issue creating surface texture " << TTF_GetError() << std::endl;
+		TTF_CloseFont(font);
+        
+	}
+	 SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+	// if (texture == nullptr
+    // ){
+	// 	std::cout << "Issue creating output texture " << TTF_GetError() << std::endl;
+	// }
+	// //Clean up the surface and font
+	// SDL_FreeSurface(surf);
+	// TTF_CloseFont(font);
 	return texture;
 }
 
@@ -168,7 +196,7 @@ void destroyPlatforms()
 
 void update(float elapsed)
 {
-   // game_score += (game_time.asSeconds() + elapsed);
+    game_score += elapsed;
     //std::string score = "Score: " + std::to_string(game_score);
     ///text.setString(score);
     while (platforms.size() < 7)
@@ -202,6 +230,9 @@ void update(float elapsed)
         sam->move(0, player_jump_speed);
     }
 
+    std::string newScore = "Score: " + std::to_string((game_score / 100));
+    scoreText->updateText(newScore);
+    
     destroyPlatforms();
 };
 
@@ -229,9 +260,12 @@ void render()
     }
 //    // window.draw(text);
     
+
+    
+   // SDL_RenderCopy(renderer, renderText("Score: ", textColor, renderer), source_rect, target_rect);
     
     sam->render(renderer);
-
+    scoreText->render(renderer);
     if (debug_render)
     {
         debugRender();
@@ -270,28 +304,20 @@ void input()
 		}
     }
 
-    // if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
-    // {
-    //     if (collided)
-    //     {
-    //         if (!jumping)
-    //         {
-    //             time_of_click = 0;
-    //             // jump_sound.play();
-    //             // collision_sound.play();
-    //         }
-    //         jumping = true;
-    //     }
-    // }
-
 }
 
 void loadResources()
 {
+
     background_texture = loadTexture("resources/background.jpg", renderer);
     bike_texture = loadTexture("resources/bike_sheet_sam.png", renderer);
     street_texture = loadTexture("resources/street_sheet.png", renderer);
-    
+    std::string fontpath = "/resources/sample.ttf";
+    font = TTF_OpenFont(fontpath.c_str(), 40);
+    if (font == nullptr)
+    {
+        std::cout << "Font is null in load resources: " << TTF_GetError() << std::endl;
+    }
     //icon.loadFromFile("resources/sam_icon_2.png");
     // music.openFromFile("resources/cyber_sam.wav");
     // jump_sound.openFromFile("resources/cartoon_jump.wav");
@@ -308,10 +334,17 @@ void init()
     sam = new Player(bike_texture);
     Platform platform = Platform(street_texture, 10, -50, 480);
     
+
+    textColor = { 255, 255, 255, 255 };
+    SDL_Rect textposrect = {900, 40, 300, 50};
+    scoreText = new Text(font, std::string ("Score text:"), textColor, textposrect, renderer);
+
     platforms.push_back(platform);
     
     sam->move(110, 450);  
+
     
+
     // text.setCharacterSize(30);
     // text.setStyle(sf::Text::Bold);
     // text.setFillColor(sf::Color::White);
@@ -353,7 +386,21 @@ int main(int, char const**)
     {	
 		throw "SDL could not be initialised";
 	};
+    
+    
+    int imgFlags = IMG_INIT_PNG;
+    
+    if( !( IMG_Init( imgFlags ) & imgFlags ) )
+    {
+        printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+    }
 
+ 	//Also need to init SDL_ttf
+	if (TTF_Init() != 0)
+    {
+		SDL_Quit();
+		return 1;
+	}
     window = SDL_CreateWindow("TkyoSpaghetti", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     event = new SDL_Event;
@@ -377,7 +424,9 @@ int main(int, char const**)
 	renderer = NULL;
 	window = NULL;
 	IMG_Quit();
+    TTF_Quit();
 	SDL_Quit();
+
 
     // music.~Music();
     // jump_sound.~Music();

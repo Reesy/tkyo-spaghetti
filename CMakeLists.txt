@@ -10,12 +10,14 @@ set(MY_SOURCES
         src/main.cpp
         src/Platform.cpp
         src/Player.cpp
+        src/Text.cpp
         include/IAnimatable.hpp
         include/ICollidable.hpp
         include/IMovable.hpp
         include/IPlatform.hpp
         include/IPlayer.hpp
         include/IVisible.hpp
+        include/IText.hpp
 )
 
 set(MY_RESOURCES resources)
@@ -26,6 +28,8 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     find_package(SDL2 REQUIRED)
 
     find_package(SDL2_image REQUIRED)
+
+    find_package(SDL2_TTF REQUIRED)
 
     include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
@@ -45,7 +49,7 @@ if (MSVC)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
     endif()
 elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-    set(USE_FLAGS "-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' -s USE_FREETYPE=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file resources/")
+    set(USE_FLAGS "-s USE_SDL=2 -s USE_SDL_TTF=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' -s USE_FREETYPE=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file resources/")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     file(COPY "index.html" DESTINATION ${CMAKE_BINARY_DIR})
     file(COPY "server.py" DESTINATION ${CMAKE_BINARY_DIR})
@@ -58,5 +62,5 @@ endif()
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     target_link_libraries(${EXECUTABLE_NAME})
 else()
-    target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY})
 endif()
