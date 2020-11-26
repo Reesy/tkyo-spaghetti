@@ -37,6 +37,7 @@ bool jumping;
 bool debug_render = false;
 bool quit = false;
 bool paused = false;
+bool restart = false;
 
 //Game consts
 const int platform_gap = 650;  // This controls the distance between spawned platforms
@@ -68,6 +69,7 @@ SDL_Color textColor;
 TTF_Font* font;
 Text* scoreText;
 
+void init();
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 {
@@ -177,9 +179,14 @@ void destroyPlatforms()
 
 void update(float elapsed)
 {
+    if (restart)
+    {
+        restart = false;
+        init();
+    }
+
     game_score += elapsed;
-    //std::string score = "Score: " + std::to_string(game_score);
-    ///text.setString(score);
+
     while (platforms.size() < 7)
     {
         platforms.push_back(generateNextPlatform(platforms[platforms.size() - 1]));
@@ -277,6 +284,9 @@ void input()
             case SDLK_p:
                 paused =! paused;
                 break;
+            case SDLK_r:
+                restart = true;
+                break;
 			default:
 				break;
 		}
@@ -324,17 +334,12 @@ void loadResources()
         std::cout << "Failed to load icon! SDL_Image error: " << IMG_GetError() << std::endl;
     }
     SDL_SetWindowIcon(window, icon);
-    //icon.loadFromFile("resources/sam_icon_2.png");
-   
-
+    
 };
 
 
 void init()
 {
-
-    //window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    //window.setFramerateLimit(60);
     
     sam = new Player(bike_texture);
     Platform platform = Platform(street_texture, 10, -50, 480);
@@ -344,11 +349,13 @@ void init()
     SDL_Rect textposrect = {900, 40, 300, 50};
     scoreText = new Text(font, std::string ("Score text:"), textColor, textposrect, renderer);
 
+    platforms.clear(); // Empty any junk in the platforms vector
     platforms.push_back(platform);
     
     sam->move(110, 450);  
 
     Mix_PlayMusic( music, -1);
+    game_score = 0;
 
 };
 
@@ -376,13 +383,11 @@ void gameLoop()
 
 int main(int, char const**)
 {
-    
     //Start up SDL and make sure it went ok
 	if ( SDL_Init (SDL_INIT_VIDEO) != 0 )
     {	
 		throw "SDL could not be initialised";
 	};
-    
     
     int imgFlags = IMG_INIT_PNG;
     
@@ -427,9 +432,5 @@ int main(int, char const**)
     TTF_Quit();
 	SDL_Quit();
 
-
-    // music.~Music();
-    // jump_sound.~Music();
-    // collision_sound.~Music();
     return EXIT_SUCCESS;
 };
