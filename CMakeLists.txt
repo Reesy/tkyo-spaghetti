@@ -31,6 +31,8 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 
     find_package(SDL2_TTF REQUIRED)
 
+    find_package(SDL2_mixer REQUIRED)
+
     include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
     include_directories(${SDL2_INCLUDE_DIR})
@@ -62,5 +64,5 @@ endif()
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     target_link_libraries(${EXECUTABLE_NAME})
 else()
-    target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
 endif()

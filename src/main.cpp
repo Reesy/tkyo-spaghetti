@@ -17,14 +17,14 @@
 	#include <SDL.h>
 	#include <SDL_image.h>
     #include <SDL_ttf.h>
+    #include <SDL_mixer.h>
 #endif
 
 //game objects
-//(sf::VideoMode(1280, 720), "Tkyo Spaghetti");
-// sf::Image icon;
-// sf::Music music;
-// sf::Music collision_sound;
-// sf::Music jump_sound;
+SDL_Surface *icon = NULL;
+Mix_Music *music = NULL;
+Mix_Chunk *collision_sound = NULL;
+Mix_Chunk *jump_sound = NULL;
 
 
 double elapsed_time = 0;
@@ -66,6 +66,7 @@ SDL_Color textColor;
 TTF_Font* font;
 Text* scoreText;
 
+
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 {
 	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
@@ -73,28 +74,6 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 	{
         printf("Failed to load image\n", file.c_str());
 	}
-	return texture;
-}
-
-SDL_Texture* renderText(const std::string &message, SDL_Color color,  SDL_Renderer *renderer)
-{
-	//We need to first render to a surface as that's what TTF_RenderText returns, then
-	//load that surface into a texture
-	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
-	if (surf == nullptr)
-    {
-        std::cout << "Issue creating surface texture " << TTF_GetError() << std::endl;
-		TTF_CloseFont(font);
-        
-	}
-	 SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-	// if (texture == nullptr
-    // ){
-	// 	std::cout << "Issue creating output texture " << TTF_GetError() << std::endl;
-	// }
-	// //Clean up the surface and font
-	// SDL_FreeSurface(surf);
-	// TTF_CloseFont(font);
 	return texture;
 }
 
@@ -258,11 +237,6 @@ void render()
     {
         platforms[i].render(renderer);
     }
-//    // window.draw(text);
-    
-
-    
-   // SDL_RenderCopy(renderer, renderText("Score: ", textColor, renderer), source_rect, target_rect);
     
     sam->render(renderer);
     scoreText->render(renderer);
@@ -293,8 +267,7 @@ void input()
                     if (!jumping)
                     {
                         time_of_click = 0;
-                        // jump_sound.play();
-                        // collision_sound.play();
+                        Mix_PlayChannel( -1, jump_sound, 0 );
                     }
                     jumping = true;
                 }
@@ -318,16 +291,43 @@ void loadResources()
     {
         std::cout << "Font is null in load resources: " << TTF_GetError() << std::endl;
     }
+
+    music = Mix_LoadMUS("resources/cyber_sam.wav");
+    if( music == NULL )
+	{
+		std::cout << "Failed to load beat music! SDL_mixer Error: " << Mix_GetError() << std::endl;
+
+	}
+
+    jump_sound = Mix_LoadWAV("resources/cartoon_jump.wav");
+    if( jump_sound == NULL )
+	{
+		std::cout << "Failed to load jump sound! SDL_mixer Error: " << Mix_GetError() << std::endl;
+
+	}
+
+    collision_sound = Mix_LoadWAV("resources/collision.wav");
+    if( collision_sound == NULL )
+	{
+		std::cout << "Failed to load collision_sound! SDL_mixer Error: " << Mix_GetError() << std::endl;
+
+	}
+
+    icon = IMG_Load("resources/sam_icon_2.png");
+    if (icon == NULL)
+    {
+        std::cout << "Failed to load icon! SDL_Image error: " << IMG_GetError() << std::endl;
+    }
+    SDL_SetWindowIcon(window, icon);
     //icon.loadFromFile("resources/sam_icon_2.png");
-    // music.openFromFile("resources/cyber_sam.wav");
-    // jump_sound.openFromFile("resources/cartoon_jump.wav");
-    // collision_sound.openFromFile("resources/collision.wav");
-    //font.loadFromFile("resources/sansation.ttf");
+   
+
 };
 
 
 void init()
 {
+
     //window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     //window.setFramerateLimit(60);
     
@@ -343,16 +343,7 @@ void init()
     
     sam->move(110, 450);  
 
-    
-
-    // text.setCharacterSize(30);
-    // text.setStyle(sf::Text::Bold);
-    // text.setFillColor(sf::Color::White);
-    // text.move(1040, 0);
-        
-    // background_sprite.setTexture(background_texture);
-    // music.play();
-    // music.setLoop(true);
+    Mix_PlayMusic( music, -1);
 
 };
 
@@ -367,13 +358,10 @@ void gameLoop()
         input();
     }
 
-    
-
     update(frameTime);
     sam->animate(frameTime);
     render();
     
-    // window.display();
     t += frameTime;
    
 }
@@ -401,6 +389,12 @@ int main(int, char const**)
 		SDL_Quit();
 		return 1;
 	}
+
+    //Initialize SDL_mixer
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    {
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+    }
     window = SDL_CreateWindow("TkyoSpaghetti", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     event = new SDL_Event;
