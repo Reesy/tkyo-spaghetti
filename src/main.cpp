@@ -178,7 +178,12 @@ void destroyPlatforms()
 }
 
 void update(float elapsed)
-{
+{   
+    if (sam->getY() > SCREEN_HEIGHT)
+    {
+        init();
+    }
+
     if (restart)
     {
         restart = false;
@@ -353,7 +358,8 @@ void init()
     platforms.push_back(platform);
     
     sam->move(110, 450);  
-
+    Mix_Volume(-1, 10);
+    Mix_VolumeMusic(10);
     Mix_PlayMusic( music, -1);
     game_score = 0;
 
