@@ -36,7 +36,6 @@ bool jumping;
 bool debug_render = false;
 bool quit = false;
 bool paused = false;
-bool restart = false;
 bool hoveringOverPlayButton = false;
 
 //Game consts
@@ -65,6 +64,7 @@ SDL_Rect play_enabled_src_position = {400, 0, 400, 205};
 SDL_Rect play_disabled_src_position = {800, 0, 400, 205};
 SDL_Rect audio_enabled_src_position = {1200, 0, 400, 205};
 SDL_Rect audio_disabled_src_position = {1600, 0, 400, 205};
+SDL_Rect play_button_location = {500, 258, 240, 100 };
 SDL_Rect cursor_position = {0, 0, 10, 10};
 Player* sam;
 SDL_Rect* source_rect = NULL;
@@ -186,18 +186,14 @@ void destroyPlatforms()
 
 void update(float elapsed)
 {   
+    game_score += elapsed;
+
     if (sam->getY() > SCREEN_HEIGHT)
     {
+        paused = true;
+        game_score = 0.0;
         init();
     }
-
-    if (restart)
-    {
-        restart = false;
-        init();
-    }
-
-    game_score += elapsed;
 
     while (platforms.size() < 7)
     {
@@ -285,9 +281,8 @@ void renderMenu()
     }
 
     SDL_RenderCopy(renderer, menu_texture, &menu_src_position, &menu_dst_position);
-    SDL_Rect play_button_location = {500, 258, 240, 100 };
     
-    if (isColliding(cursor_position, play_button_location))
+    if (hoveringOverPlayButton)
     {
         SDL_RenderCopy(renderer, menu_texture, &play_enabled_src_position, &menu_dst_position);
     }
@@ -311,6 +306,37 @@ void input()
     }      
 
     SDL_GetMouseState( &mouseX, &mouseY );
+
+    //this should be refactored into a seperate update function, or a menu class?
+    if (isColliding(cursor_position, play_button_location))
+    {
+        hoveringOverPlayButton = true;
+    }
+    else
+    {
+        hoveringOverPlayButton = false;
+    }
+
+
+    if (event->type == SDL_MOUSEBUTTONDOWN)
+    {
+        if (hoveringOverPlayButton)
+        {
+            paused = false;
+        }
+    
+        if (collided)
+        {
+            if (!jumping)
+            {
+                time_of_click = 0;
+                Mix_PlayChannel( -1, jump_sound, 0 );
+            }
+            jumping = true;
+        }
+    
+    
+    }
     if (event->type == SDL_KEYDOWN)
     {
         switch (event->key.keysym.sym)
@@ -331,9 +357,6 @@ void input()
                 break;
             case SDLK_p:
                 paused =! paused;
-                break;
-            case SDLK_r:
-                restart = true;
                 break;
 			default:
 				break;
