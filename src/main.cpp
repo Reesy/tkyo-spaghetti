@@ -37,6 +37,7 @@ bool debug_render = false;
 bool quit = false;
 bool paused = false;
 bool restart = false;
+bool hoveringOverPlayButton = false;
 
 //Game consts
 const int platform_gap = 650;  // This controls the distance between spawned platforms
@@ -47,7 +48,7 @@ const int player_jump_height = -35;
 const int player_jump_speed = 20;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
-
+int mouseX, mouseY;
 double currentTime = SDL_GetTicks();
 
 SDL_Event* event = NULL;
@@ -64,6 +65,7 @@ SDL_Rect play_enabled_src_position = {400, 0, 400, 205};
 SDL_Rect play_disabled_src_position = {800, 0, 400, 205};
 SDL_Rect audio_enabled_src_position = {1200, 0, 400, 205};
 SDL_Rect audio_disabled_src_position = {1600, 0, 400, 205};
+SDL_Rect cursor_position = {0, 0, 10, 10};
 Player* sam;
 SDL_Rect* source_rect = NULL;
 SDL_Rect* target_rect = NULL;
@@ -230,7 +232,7 @@ void update(float elapsed)
 
     std::string newScore = "Score: " + std::to_string((game_score / 100));
     scoreText->updateText(newScore);
-    
+
     destroyPlatforms();
 };
 
@@ -283,7 +285,18 @@ void renderMenu()
     }
 
     SDL_RenderCopy(renderer, menu_texture, &menu_src_position, &menu_dst_position);
-    SDL_RenderCopy(renderer, menu_texture, &play_disabled_src_position, &menu_dst_position);
+    SDL_Rect play_button_location = {500, 258, 240, 100 };
+    
+    if (isColliding(cursor_position, play_button_location))
+    {
+        SDL_RenderCopy(renderer, menu_texture, &play_enabled_src_position, &menu_dst_position);
+    }
+    else
+    {
+        SDL_RenderCopy(renderer, menu_texture, &play_disabled_src_position, &menu_dst_position);
+    }
+
+    
     SDL_RenderCopy(renderer, menu_texture, &audio_enabled_src_position, &menu_dst_position);
     SDL_RenderPresent(renderer);
 
@@ -297,6 +310,7 @@ void input()
         quit = true;
     }      
 
+    SDL_GetMouseState( &mouseX, &mouseY );
     if (event->type == SDL_KEYDOWN)
     {
         switch (event->key.keysym.sym)
@@ -396,6 +410,8 @@ void gameLoop()
     while (SDL_PollEvent(event))
     {
         input();
+        cursor_position.x = mouseX;
+        cursor_position.y = mouseY;
     }
     
     if (!paused) 
