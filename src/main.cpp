@@ -57,6 +57,13 @@ SDL_Texture* background_texture = NULL;
 SDL_Texture* background_sprite = NULL;
 SDL_Texture* bike_texture = NULL;
 SDL_Texture* street_texture = NULL;
+SDL_Texture* menu_texture = NULL;
+SDL_Rect menu_src_position = {0, 0, 400, 205};
+SDL_Rect menu_dst_position = {330, 200, 640, 360};
+SDL_Rect play_enabled_src_position = {400, 0, 400, 205};
+SDL_Rect play_disabled_src_position = {800, 0, 400, 205};
+SDL_Rect audio_enabled_src_position = {1200, 0, 400, 205};
+SDL_Rect audio_disabled_src_position = {1600, 0, 400, 205};
 Player* sam;
 SDL_Rect* source_rect = NULL;
 SDL_Rect* target_rect = NULL;
@@ -65,6 +72,7 @@ std::string fontLocation;
 SDL_Color textColor;
 TTF_Font* font;
 Text* scoreText;
+
 
 void init();
 
@@ -256,6 +264,32 @@ void render()
     SDL_RenderPresent(renderer);
 };
 
+void renderMenu()
+{
+    SDL_SetRenderDrawColor(renderer, 91, 10, 145, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, background_texture, source_rect, target_rect); 
+
+    for (int i = 0; i < platforms.size(); i++)
+    {
+        platforms[i].render(renderer);
+    }
+    
+    sam->render(renderer);
+    scoreText->render(renderer);
+    if (debug_render)
+    {
+        debugRender();
+    }
+
+    SDL_RenderCopy(renderer, menu_texture, &menu_src_position, &menu_dst_position);
+    SDL_RenderCopy(renderer, menu_texture, &play_disabled_src_position, &menu_dst_position);
+    SDL_RenderCopy(renderer, menu_texture, &audio_enabled_src_position, &menu_dst_position);
+    SDL_RenderPresent(renderer);
+
+
+}
+
 void input()
 {
     if (event->type == SDL_QUIT)
@@ -300,6 +334,7 @@ void loadResources()
     background_texture = loadTexture("resources/background.jpg", renderer);
     bike_texture = loadTexture("resources/bike_sheet_sam.png", renderer);
     street_texture = loadTexture("resources/street_sheet.png", renderer);
+    menu_texture = loadTexture("resources/menu_sheet.png", renderer);
     std::string fontpath = "/resources/sample.ttf";
     font = TTF_OpenFont(fontpath.c_str(), 40);
     if (font == nullptr)
@@ -375,6 +410,10 @@ void gameLoop()
         sam->animate(delta);
         render();
         currentTime = tick;
+    }
+    else
+    {
+        renderMenu();
     }
  
 }
