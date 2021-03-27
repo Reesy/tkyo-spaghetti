@@ -27,7 +27,6 @@ Mix_Music *music = NULL;
 Mix_Chunk *collision_sound = NULL;
 Mix_Chunk *jump_sound = NULL;
 
-
 double elapsed_time = 0;
 double accumulator = 0;
 float time_of_click;
@@ -49,9 +48,7 @@ const int player_jump_speed = 20;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
-double t = 0.0;
 double currentTime = SDL_GetTicks();
-
 
 SDL_Event* event = NULL;
 SDL_Window* window = NULL;
@@ -241,12 +238,10 @@ void debugRender()
 
 void render()
 {
-    
     SDL_SetRenderDrawColor(renderer, 91, 10, 145, 255);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, background_texture, source_rect, target_rect); 
 
- 
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i].render(renderer);
@@ -316,21 +311,18 @@ void loadResources()
     if( music == NULL )
 	{
 		std::cout << "Failed to load beat music! SDL_mixer Error: " << Mix_GetError() << std::endl;
-
 	}
 
     jump_sound = Mix_LoadWAV("resources/cartoon_jump.wav");
     if( jump_sound == NULL )
 	{
 		std::cout << "Failed to load jump sound! SDL_mixer Error: " << Mix_GetError() << std::endl;
-
 	}
 
     collision_sound = Mix_LoadWAV("resources/collision.wav");
     if( collision_sound == NULL )
 	{
 		std::cout << "Failed to load collision_sound! SDL_mixer Error: " << Mix_GetError() << std::endl;
-
 	}
 
     icon = IMG_Load("resources/sam_icon_2.png");
@@ -345,10 +337,8 @@ void loadResources()
 
 void init()
 {
-    
     sam = new Player(bike_texture);
-    Platform platform = Platform(street_texture, 10, -50, 480);
-    
+    Platform platform = Platform(street_texture, 10, -50, 480); 
 
     textColor = { 255, 255, 255, 255 };
     SDL_Rect textposrect = {900, 40, 300, 50};
@@ -367,24 +357,26 @@ void init()
 
 void gameLoop()
 {   
-  	double newTime = SDL_GetTicks();
-	double frameTime = newTime - currentTime;
-	currentTime = newTime;
-
+  
     while (SDL_PollEvent(event))
     {
         input();
     }
-    if (paused) 
-    {
-        return;
-    }
-    update(frameTime);
-    sam->animate(frameTime);
-    render();
     
-    t += frameTime;
-   
+    if (!paused) 
+    {   
+        double tick = SDL_GetTicks();
+        double delta = tick - currentTime;
+        if (delta > 100) 
+        {
+            delta = 100;
+        }
+        update(delta);
+        sam->animate(delta);
+        render();
+        currentTime = tick;
+    }
+ 
 }
 
 int main(int, char const**)
