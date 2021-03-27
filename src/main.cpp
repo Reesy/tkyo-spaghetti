@@ -317,8 +317,15 @@ void input()
         quit = true;
     }      
 
+
     SDL_GetMouseState( &mouseX, &mouseY );
 
+    //A slight gordion knot (really should seperate concerns but I'm bored of this project)
+    if (event->type == SDL_FINGERDOWN)
+    {
+        mouseX = event->tfinger.x;
+        mouseY = event->tfinger.y;
+    }
     //this should be refactored into a seperate update function, or a menu class?
     if (isColliding(cursor_position, play_button_location))
     {
@@ -347,8 +354,8 @@ void input()
         hoveringOverAudioOffButton = false;
     }
 
-
-    if (event->type == SDL_MOUSEBUTTONDOWN)
+     
+    if (event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_FINGERDOWN)
     {
         if (hoveringOverPlayButton)
         {
@@ -381,6 +388,7 @@ void input()
     
     
     }
+
     if (event->type == SDL_KEYDOWN)
     {
         switch (event->key.keysym.sym)
