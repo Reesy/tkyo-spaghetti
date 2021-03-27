@@ -35,8 +35,11 @@ bool collided;
 bool jumping; 
 bool debug_render = false;
 bool quit = false;
-bool paused = false;
+bool paused = true;
 bool hoveringOverPlayButton = false;
+bool hoveringOverAudioOnButton = false;
+bool hoveringOverAudioOffButton = false;
+bool musicPlaying = true;
 
 //Game consts
 const int platform_gap = 650;  // This controls the distance between spawned platforms
@@ -47,6 +50,7 @@ const int player_jump_height = -35;
 const int player_jump_speed = 20;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
+int music_volume = 10;
 int mouseX, mouseY;
 double currentTime = SDL_GetTicks();
 
@@ -60,11 +64,13 @@ SDL_Texture* street_texture = NULL;
 SDL_Texture* menu_texture = NULL;
 SDL_Rect menu_src_position = {0, 0, 400, 205};
 SDL_Rect menu_dst_position = {330, 200, 640, 360};
-SDL_Rect play_enabled_src_position = {400, 0, 400, 205};
-SDL_Rect play_disabled_src_position = {800, 0, 400, 205};
+SDL_Rect play_enabled_src_position = {800, 0, 400, 205};
+SDL_Rect play_disabled_src_position = {400, 0, 400, 205};
 SDL_Rect audio_enabled_src_position = {1200, 0, 400, 205};
 SDL_Rect audio_disabled_src_position = {1600, 0, 400, 205};
 SDL_Rect play_button_location = {500, 258, 240, 100 };
+SDL_Rect audio_on_button_location = {590, 415, 125, 72};
+SDL_Rect audio_off_button_location = {735, 415, 131, 72};
 SDL_Rect cursor_position = {0, 0, 10, 10};
 Player* sam;
 SDL_Rect* source_rect = NULL;
@@ -291,8 +297,14 @@ void renderMenu()
         SDL_RenderCopy(renderer, menu_texture, &play_disabled_src_position, &menu_dst_position);
     }
 
-    
-    SDL_RenderCopy(renderer, menu_texture, &audio_enabled_src_position, &menu_dst_position);
+    if (musicPlaying)
+    {
+        SDL_RenderCopy(renderer, menu_texture, &audio_enabled_src_position, &menu_dst_position);
+    }
+    else
+    {
+        SDL_RenderCopy(renderer, menu_texture, &audio_disabled_src_position, &menu_dst_position);
+    }
     SDL_RenderPresent(renderer);
 
 
@@ -317,6 +329,24 @@ void input()
         hoveringOverPlayButton = false;
     }
 
+    if (isColliding(cursor_position, audio_on_button_location))
+    {
+        hoveringOverAudioOnButton = true;
+    }
+    else
+    {
+        hoveringOverAudioOnButton = false;
+    }
+
+    if (isColliding(cursor_position, audio_off_button_location))
+    {
+        hoveringOverAudioOffButton = true;
+    }
+    else
+    {
+        hoveringOverAudioOffButton = false;
+    }
+
 
     if (event->type == SDL_MOUSEBUTTONDOWN)
     {
@@ -324,7 +354,21 @@ void input()
         {
             paused = false;
         }
-    
+
+        if (hoveringOverAudioOnButton)
+        {
+            musicPlaying = true;
+            Mix_Volume(-1, 10);
+            Mix_VolumeMusic(music_volume);
+        }
+
+        if (hoveringOverAudioOffButton)
+        {
+            musicPlaying = false;
+            Mix_Volume(-1, 0);
+            Mix_VolumeMusic(0);
+        }
+
         if (collided)
         {
             if (!jumping)
@@ -414,15 +458,20 @@ void init()
 
     textColor = { 255, 255, 255, 255 };
     SDL_Rect textposrect = {900, 40, 300, 50};
-    scoreText = new Text(font, std::string ("Score text:"), textColor, textposrect, renderer);
+    scoreText = new Text(font, std::string ("Score: 0.000000"), textColor, textposrect, renderer);
 
     platforms.clear(); // Empty any junk in the platforms vector
     platforms.push_back(platform);
     
     sam->move(110, 450);  
-    Mix_Volume(-1, 10);
-    Mix_VolumeMusic(10);
-    Mix_PlayMusic( music, -1);
+    
+    if (musicPlaying)
+    {
+        Mix_Volume(-1, 10);
+        Mix_VolumeMusic(music_volume);
+        Mix_PlayMusic( music, -1);
+    }
+
     game_score = 0;
 
 };
