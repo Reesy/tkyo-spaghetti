@@ -3,8 +3,8 @@
 Player::Player(SDL_Texture* _texture)
 {
     this->texture = _texture;
-    this->textureRect = {0, 0, 200, 200};
-    this->positionRect = {0, 0, 200, 200};
+    this->textureRect = {0, 0, 110, 68};
+    this->positionRect = {55, 60, 110, 68};
     this->collidingRect = {55, 80, 100, 45};
     // this->bounds = sf::RectangleShape(sf::Vector2f(100, 45));
     // this->bounds.setFillColor(sf::Color::Transparent);
@@ -34,98 +34,99 @@ void Player::animate(double _elapsedTime)
         this->frame++;
         this->animationClock = 0.0;
     }
-
+    \
+    //439x408  4 x 6    109.75x 68
     if (this->frame == 0)
     {
-        this->textureRect = {0, 0, 200, 200};
+        this->textureRect = {0, 0, 110, 68};
     }
     if (this->frame == 1)
     {
-        this->textureRect = {200, 0, 200, 200};
+        this->textureRect = {110, 0, 110, 68};
     } 
     else if (this->frame == 2)
     {
-        this->textureRect = {400, 0, 200, 200};
+        this->textureRect = {220, 0, 110, 68};
     }
     else if (this->frame == 3)
     {
-        this->textureRect = {600, 0, 200, 200};
+        this->textureRect = {330, 0, 110, 68};
     }
     else if (this->frame == 4)
     {
-        this->textureRect = {800, 0, 200, 200};
+        this->textureRect = {0, 68, 110, 68};
     }
     else if (this->frame == 5)
     {
-        this->textureRect = {1000, 0, 200, 200};
+        this->textureRect = {110, 68, 110, 68};
     }
     else if (this->frame == 6)
     {
-        this->textureRect = {1200, 0, 200, 200};
+        this->textureRect = {220, 68, 110, 68};
     }
     else if (this->frame == 7)
     {
-        this->textureRect = {1400, 0, 200, 200};
+        this->textureRect = {330, 68, 110, 68};
     }
     else if (this->frame == 8)
     {
-        this->textureRect = {1600, 0, 200, 200};
+        this->textureRect = {0, 136, 110, 68};
     }
     else if (this->frame == 9)
     {
-        this->textureRect = {1800, 0, 200, 200};
+        this->textureRect = {110, 136, 110, 68};
     }
     else if (this->frame == 10)
     {
-        this->textureRect = {2000, 0, 200, 200};
+        this->textureRect = {220, 136, 110, 68};
     }
     else if (this->frame == 11)
     {
-        this->textureRect = {2200, 0, 200, 200};
+        this->textureRect = {330, 136, 110, 68};
     }
     else if (this->frame == 12)
     {
-        this->textureRect = {2400, 0, 200, 200};
+        this->textureRect = {0, 204, 110, 68};
     }
     else if (this->frame == 13)
     {
-        this->textureRect = {2600, 0, 200, 200};
+        this->textureRect = {110, 204, 110, 68};
     }
     else if (this->frame == 14)
     {
-        this->textureRect = {2800, 0, 200, 200};
+        this->textureRect = {220, 204, 110, 68};
     }
     else if (this->frame == 15)
     {
-        this->textureRect = {3000, 0, 200, 200};
+        this->textureRect = {330, 204, 110, 68};
     }
     else if (this->frame == 16)
     {
-        this->textureRect = {3200, 0, 200, 200};
+        this->textureRect = {0, 272, 110, 68};
     }
     else if (this->frame == 17)
     {
-        this->textureRect = {3400, 0, 200, 200};
+        this->textureRect = {110, 272, 110, 68};
     }
     else if (this->frame == 18)
     {
-        this->textureRect = {3600, 0, 200, 200};
+        this->textureRect = {220, 272, 110, 68};
     }
     else if (this->frame == 19)
     {
-        this->textureRect = {3800, 0, 200, 200};
+        this->textureRect = {330, 272, 110, 68};
     }
     else if (this->frame == 20)
     {
-        this->textureRect = {4000, 0, 200, 200};
+        this->textureRect = {0, 340, 110, 68};
     }
     else if (this->frame == 21)
     {
-        this->textureRect = {4200, 0, 200, 200};
+        this->textureRect = {110, 340, 110, 68};
     }
     else if (this->frame >= 22)
     {
-        this->textureRect = {4600, 0, 200, 200};
+        this->textureRect = {220, 340, 110, 68};
         this->frame = 0;
         return;
     }

@@ -90,6 +90,7 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 	if (texture == nullptr)
 	{
         printf("Failed to load image\n", file.c_str());
+        std::cout << "Failure reason: " << IMG_GetError() << std::endl;
 	}
 	return texture;
 }
@@ -421,7 +422,7 @@ void loadResources()
 {
 
     background_texture = loadTexture("resources/background.jpg", renderer);
-    bike_texture = loadTexture("resources/bike_sheet_sam.png", renderer);
+    bike_texture = loadTexture("resources/bikesheet.png", renderer);
     street_texture = loadTexture("resources/street_sheet.png", renderer);
     menu_texture = loadTexture("resources/menu_sheet.png", renderer);
     std::string fontpath = "/resources/sample.ttf";
