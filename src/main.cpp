@@ -363,14 +363,14 @@ void input()
             paused = false;
         }
 
-        if (hoveringOverAudioOnButton)
+        if (hoveringOverAudioOnButton && paused)
         {
             musicPlaying = true;
             Mix_Volume(-1, 10);
             Mix_VolumeMusic(music_volume);
         }
 
-        if (hoveringOverAudioOffButton)
+        if (hoveringOverAudioOffButton && paused)
         {
             musicPlaying = false;
             Mix_Volume(-1, 0);
