@@ -27,8 +27,6 @@ Mix_Music *music = NULL;
 Mix_Chunk *collision_sound = NULL;
 Mix_Chunk *jump_sound = NULL;
 
-double elapsed_time = 0;
-double accumulator = 0;
 float time_of_click;
 float game_score;
 bool collided;
@@ -52,7 +50,10 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 int music_volume = 10;
 int mouseX, mouseY;
+
+double dt = 10;
 double currentTime = SDL_GetTicks();
+double accumulator = 0.0;
 
 SDL_Event* event = NULL;
 SDL_Window* window = NULL;
@@ -489,30 +490,40 @@ void init()
 
 void gameLoop()
 {   
-  
+    double newTime = SDL_GetTicks();
+    double frameTime = newTime - currentTime;
+
+    if (frameTime > 250)
+    {
+        std::cout << "Update bounded, took longer than a quater of a second" << std::endl;
+        frameTime = 250;
+    }
+
+    currentTime = newTime;
+
+    accumulator += frameTime;
+
+    while (accumulator >= dt)
+    {
+        update(dt);
+        sam->animate(dt);
+        accumulator -= dt;
+    };
+
+    if (!paused) 
+    {   
+        render();
+    }
+    else
+    {
+        renderMenu();
+    }
+
     while (SDL_PollEvent(event))
     {
         input();
         cursor_position.x = mouseX;
         cursor_position.y = mouseY;
-    }
-    
-    if (!paused) 
-    {   
-        double tick = SDL_GetTicks();
-        double delta = tick - currentTime;
-        if (delta > 100) 
-        {
-            delta = 100;
-        }
-        update(delta);
-        sam->animate(delta);
-        render();
-        currentTime = tick;
-    }
-    else
-    {
-        renderMenu();
     }
  
 }
