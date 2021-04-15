@@ -503,7 +503,7 @@ void gameLoop()
 
     accumulator += frameTime;
 
-    while (accumulator >= dt)
+    while (accumulator >= dt && !paused)
     {
         update(dt);
         sam->animate(dt);
