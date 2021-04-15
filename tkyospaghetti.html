@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-    
 
 <head>
     <meta charset="utf-8">
@@ -8,16 +7,15 @@
     <link rel="icon" href="sam_icon_2.png">
 </head>
 
-<body style="background-color: black; margin:0%;">
-    <div style="display: block; 
-                margin-left: auto;
-                margin-right: auto;
-                padding: 0;
-                width:max-content;        
-                border-style: solid;">
-        <!-- Create the canvas that the C++ code will draw into -->
-        <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
-    </div>
+<body style="padding:0;
+             margin:0;
+             overflow: hidden;">
+    <!-- Create the canvas that the C++ code will draw into -->
+    <canvas id="canvas" 
+            oncontextmenu="event.preventDefault()"
+            style="width:100vw;
+                    height:100vh"></canvas>
+    
     <!-- Allow the C++ to access the canvas element --> 
     <script type='text/javascript'>
         var Module = {

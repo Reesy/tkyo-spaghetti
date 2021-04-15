@@ -313,13 +313,14 @@ void renderMenu()
 
 void input()
 {
+    
     if (event->type == SDL_QUIT)
     {
         quit = true;
-    }      
-
-
-    SDL_GetMouseState( &mouseX, &mouseY );
+    }   
+       
+    mouseX = event->button.x;
+    mouseY = event->button.y;
 
     //A slight gordion knot (really should seperate concerns but I'm bored of this project)
     if (event->type == SDL_FINGERDOWN)
@@ -358,6 +359,7 @@ void input()
      
     if (event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_FINGERDOWN)
     {
+
         if (hoveringOverPlayButton)
         {
             paused = false;
@@ -542,8 +544,16 @@ int main(int, char const**)
     {
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
     }
-    window = SDL_CreateWindow("TkyoSpaghetti", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    
+    window = SDL_CreateWindow("TkyoSpaghetti", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    
+    if (!SDL_RenderSetLogicalSize(renderer, 1280, 720))
+    {
+        std::cout << SDL_GetError() << std::endl;
+    }
+
     event = new SDL_Event;
     
     loadResources();
