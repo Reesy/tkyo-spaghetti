@@ -63,6 +63,7 @@ SDL_Texture* background_sprite = NULL;
 SDL_Texture* bike_texture = NULL;
 SDL_Texture* street_texture = NULL;
 SDL_Texture* menu_texture = NULL;
+SDL_Texture* numbers_texture = NULL;
 SDL_Rect menu_src_position = {0, 0, 400, 205};
 SDL_Rect menu_dst_position = {330, 200, 640, 360};
 SDL_Rect play_enabled_src_position = {800, 0, 400, 205};
@@ -73,6 +74,7 @@ SDL_Rect play_button_location = {500, 258, 240, 100 };
 SDL_Rect audio_on_button_location = {590, 415, 125, 72};
 SDL_Rect audio_off_button_location = {735, 415, 131, 72};
 SDL_Rect cursor_position = {0, 0, 10, 10};
+SDL_Rect numbers_position = {0, 0, 100, 100};
 Player* sam;
 SDL_Rect* source_rect = NULL;
 SDL_Rect* target_rect = NULL;
@@ -428,6 +430,7 @@ void loadResources()
     bike_texture = loadTexture("resources/bikesheet.png", renderer);
     street_texture = loadTexture("resources/street_sheet.png", renderer);
     menu_texture = loadTexture("resources/menu_sheet.png", renderer);
+    numbers_texture = loadTexture("resources/numbers_sheet.png", renderer);
     std::string fontpath = "/resources/sample.ttf";
     font = TTF_OpenFont(fontpath.c_str(), 40);
     if (font == nullptr)
