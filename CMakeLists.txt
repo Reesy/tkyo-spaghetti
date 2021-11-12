@@ -11,6 +11,7 @@ set(MY_SOURCES
         src/Platform.cpp
         src/Player.cpp
         src/Text.cpp
+        src/Score.cpp
         include/IAnimatable.hpp
         include/ICollidable.hpp
         include/IMovable.hpp
@@ -18,6 +19,7 @@ set(MY_SOURCES
         include/IPlayer.hpp
         include/IVisible.hpp
         include/IText.hpp
+        include/IScore.hpp
 )
 
 set(MY_RESOURCES resources)

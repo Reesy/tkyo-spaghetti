@@ -1,16 +1,26 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <IVisible.hpp>
+#include <IMovable.hpp>
 
 #pragma once
 
-class Score: public IVisible {
+class Score: public IVisible,
+            public IMovable 
+{
 public:
-    Score();
+    Score(SDL_Texture* _texture, 
+            int x, 
+            int y,
+            int width,
+            int height);
     ~Score();
     void render(SDL_Renderer *renderer);
-    void setScore(int score);
+    void update(float score);
+    void move(int x, int y);
     
 private:
-    int score;
+    SDL_Rect *placementRect;
+    float score;
+    SDL_Texture *texture;
 };

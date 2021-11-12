@@ -7,6 +7,7 @@
 #include <IPlayer.hpp>
 #include <IPlatform.hpp>
 #include <IText.hpp>
+#include <IScore.hpp>
 
 #if __EMSCRIPTEN__
 	#include <emscripten/emscripten.h>
@@ -83,6 +84,7 @@ std::string fontLocation;
 SDL_Color textColor;
 TTF_Font* font;
 Text* scoreText;
+Score* score;
 
 
 void init();
@@ -265,6 +267,7 @@ void render()
     
     sam->render(renderer);
     scoreText->render(renderer);
+    score->render(renderer);
     if (debug_render)
     {
         debugRender();
@@ -478,6 +481,7 @@ void init()
     platforms.clear(); // Empty any junk in the platforms vector
     platforms.push_back(platform);
     
+    score = new Score(numbers_texture, 10.0, 10.0, 10.0, 10.0);
     sam->move(110, 450);  
     
     if (musicPlaying)
