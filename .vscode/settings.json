@@ -88,6 +88,8 @@
         "ratio": "cpp",
         "stack": "cpp",
         "string_view": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "__bits": "cpp",
+        "clocale": "cpp"
     }
 }

@@ -2,6 +2,7 @@
 #include <SDL_image.h>
 #include <IVisible.hpp>
 #include <IMovable.hpp>
+#include <iostream>
 
 #pragma once
 
@@ -16,11 +17,13 @@ public:
             int height);
     ~Score();
     void render(SDL_Renderer *renderer);
-    void update(float score);
+    void update(int score);
     void move(int x, int y);
     
 private:
+    int score, x, y, width, height;
     SDL_Rect *placementRect;
-    float score;
+    SDL_Rect digitRects[10];
+    std::string scoreString;
     SDL_Texture *texture;
 };

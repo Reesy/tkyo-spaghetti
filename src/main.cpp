@@ -238,9 +238,10 @@ void update(float elapsed)
         sam->move(0, player_jump_speed);
     }
 
-    std::string newScore = "Score: " + std::to_string((game_score / 100));
-    scoreText->updateText(newScore);
+ 
 
+  //  scoreText->updateText(newScore);
+    score->update(game_score / 100);
     destroyPlatforms();
 };
 
@@ -288,6 +289,7 @@ void renderMenu()
     
     sam->render(renderer);
     scoreText->render(renderer);
+     score->render(renderer);
     if (debug_render)
     {
         debugRender();
@@ -468,20 +470,19 @@ void loadResources()
     
 };
 
-
 void init()
 {
     sam = new Player(bike_texture);
     Platform platform = Platform(street_texture, 10, -50, 480); 
 
     textColor = { 255, 255, 255, 255 };
-    SDL_Rect textposrect = {900, 40, 300, 50};
-    scoreText = new Text(font, std::string ("Score: 0.000000"), textColor, textposrect, renderer);
+    SDL_Rect textposrect = {900, 40, 100, 50};
+    scoreText = new Text(font, std::string ("Score: "), textColor, textposrect, renderer);
 
     platforms.clear(); // Empty any junk in the platforms vector
     platforms.push_back(platform);
     
-    score = new Score(numbers_texture, 10.0, 10.0, 10.0, 10.0);
+    score = new Score(numbers_texture, 960, 45, 40, 40);
     sam->move(110, 450);  
     
     if (musicPlaying)
@@ -492,7 +493,6 @@ void init()
     }
 
     game_score = 0;
-
 };
 
 void gameLoop()
@@ -504,7 +504,7 @@ void gameLoop()
     {
         std::cout << "Update bounded, took longer than a quater of a second" << std::endl;
         frameTime = 250;
-    }
+    };
 
     currentTime = newTime;
 
@@ -524,16 +524,16 @@ void gameLoop()
     else
     {
         renderMenu();
-    }
+    };
 
     while (SDL_PollEvent(event))
     {
         input();
         cursor_position.x = mouseX;
         cursor_position.y = mouseY;
-    }
+    };
  
-}
+};
 
 int main(int, char const**)
 {
@@ -548,20 +548,20 @@ int main(int, char const**)
     if( !( IMG_Init( imgFlags ) & imgFlags ) )
     {
         printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
-    }
+    };
 
  	//Also need to init SDL_ttf
 	if (TTF_Init() != 0)
     {
 		SDL_Quit();
 		return 1;
-	}
+	};
 
     //Initialize SDL_mixer
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
     {
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
-    }
+    };
     
     window = SDL_CreateWindow("TkyoSpaghetti", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     
@@ -570,7 +570,7 @@ int main(int, char const**)
     if (!SDL_RenderSetLogicalSize(renderer, 1280, 720))
     {
         std::cout << SDL_GetError() << std::endl;
-    }
+    };
 
     event = new SDL_Event;
     
@@ -583,10 +583,10 @@ int main(int, char const**)
 		while (quit != true)
 		{
 			gameLoop();
-		}
+		};
 	#endif
     
-	SDL_DestroyRenderer(renderer );
+	SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	renderer = NULL;
 	window = NULL;
