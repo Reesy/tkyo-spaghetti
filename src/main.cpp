@@ -238,9 +238,6 @@ void update(float elapsed)
         sam->move(0, player_jump_speed);
     }
 
- 
-
-  //  scoreText->updateText(newScore);
     score->update(game_score / 100);
     destroyPlatforms();
 };
@@ -250,7 +247,7 @@ void debugRender()
     for (int i = 0; i < platforms.size(); i++)
     {
         platforms[i].renderCollider(renderer);
-    }
+    };
    
     sam->renderCollider(renderer);
 };
@@ -418,9 +415,6 @@ void input()
                     jumping = true;
                 }
                 break;
-            case SDLK_p:
-                paused =! paused;
-                break;
 			default:
 				break;
 		}
@@ -497,28 +491,37 @@ void init()
 
 void gameLoop()
 {   
-    double newTime = SDL_GetTicks();
-    double frameTime = newTime - currentTime;
 
-    if (frameTime > 250)
+    while (SDL_PollEvent(event))
     {
-        std::cout << "Update bounded, took longer than a quater of a second" << std::endl;
-        frameTime = 250;
+        cursor_position.x = mouseX;
+        cursor_position.y = mouseY;
+        input();
     };
-
-    currentTime = newTime;
-
-    accumulator += frameTime;
-
-    while (accumulator >= dt && !paused)
-    {
-        update(dt);
-        sam->animate(dt);
-        accumulator -= dt;
-    };
-
+    
     if (!paused) 
     {   
+        double newTime = SDL_GetTicks();
+        double frameTime = newTime - currentTime;
+
+        if (frameTime > 250)
+        {
+            std::cout << "Update bounded, took longer than a quater of a second" << std::endl;
+            frameTime = 250;
+        };
+
+        currentTime = newTime;
+
+        accumulator += frameTime;
+        
+        while (accumulator >= dt)
+        {
+            update(dt);
+            sam->animate(dt);
+            accumulator -= dt;
+        };
+
+    
         render();
     }
     else
@@ -526,12 +529,6 @@ void gameLoop()
         renderMenu();
     };
 
-    while (SDL_PollEvent(event))
-    {
-        input();
-        cursor_position.x = mouseX;
-        cursor_position.y = mouseY;
-    };
  
 };
 

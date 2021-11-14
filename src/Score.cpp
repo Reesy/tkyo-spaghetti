@@ -13,6 +13,7 @@ Score::Score(SDL_Texture *_texture,
     this->height = _height;
     this->placementRect = new SDL_Rect{_x, _y, _width, _height};
     this->texture = _texture;
+    this->scoreString = "0";
     digitRects[0] = {0, 0, 7, 10};
     digitRects[1] = {7, 0, 7, 10};
     digitRects[2] = {14, 0, 7, 10};
@@ -41,7 +42,6 @@ void Score::render(SDL_Renderer *_renderer)
     for (int i = 0; i < this->scoreString.length(); i++)
     {
         placementRect->x = placementRect->x + placementRect->w;
-        std::cout << this->scoreString[i] << std::endl;
         SDL_RenderCopy(_renderer, this->texture, &digitRects[scoreString[i] - 48], placementRect);
     };
     placementRect->x = this->x;
