@@ -22,6 +22,8 @@
     #include <SDL_mixer.h>
 #endif
 
+#undef main
+
 //game objects
 SDL_Surface *icon = NULL;
 Mix_Music *music = NULL;
@@ -430,9 +432,9 @@ void loadResources()
     street_texture = loadTexture("resources/street_sheet.png", renderer);
     menu_texture = loadTexture("resources/menu_sheet.png", renderer);
     numbers_texture = loadTexture("resources/numbers_sheet.png", renderer);
-    std::string fontpath = "/resources/sample.ttf";
+    std::string fontpath = "resources/sample.ttf";
     font = TTF_OpenFont(fontpath.c_str(), 40);
-    if (font == nullptr)
+    if (font == nullptr || font == NULL)
     {
         std::cout << "Font is null in load resources: " << TTF_GetError() << std::endl;
     }

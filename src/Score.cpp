@@ -1,5 +1,6 @@
 #include <IScore.hpp>
 #include <iostream>
+#include <string>
 
 Score::Score(SDL_Texture *_texture, 
                 int _x, 
